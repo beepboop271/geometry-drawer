@@ -8,11 +8,14 @@ import geometrygraphics.Drawable;
 
 /**
  * A class to represent any shape to be used in the geometry
- * drawer. Has a position. {@code Shape}s and subclasses
- * should be immutable, except for position.
+ * drawer. Has a position in standard cartesian coordinates,
+ * which should be transformed according to the drawer's
+ * coordinate system when drawing to screen coordinates.
+ * {@code Shape}s and subclasses should be immutable, except
+ * for position.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public abstract class Shape implements Serializable, Drawable {
   private static final long serialVersionUID = 1601779914L;
@@ -26,7 +29,7 @@ public abstract class Shape implements Serializable, Drawable {
   private int x;
   /**
    * The y coordinate of this {@code Shape}. The y coordinate
-   * is the topmost (smallest) y coordinate this {@code Shape}
+   * is the topmost (largest) y coordinate this {@code Shape}
    * covers, i.e. the y coordinate of this {@code Shape}'s
    * bounding box top edge.
    */
@@ -126,7 +129,7 @@ public abstract class Shape implements Serializable, Drawable {
 
   /**
    * Gets the y coordinate of this {@code Shape}. The y
-   * coordinate is the topmost (smallest) y coordinate this
+   * coordinate is the topmost (largest) y coordinate this
    * {@code Shape} covers, i.e. the y coordinate of this
    * {@code Shape}'s bounding box top edge.
    *

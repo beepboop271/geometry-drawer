@@ -7,23 +7,23 @@ import java.awt.Color;
  * ellipse with equal width and height.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Circle extends Ellipse {
   private static final long serialVersionUID = 1601784889L;
 
   /**
    * Constructs a new {@code Circle} with the given
-   * coordinates, color, and radius.
+   * coordinates, color, and diameter.
    *
-   * @param x      The x coordinate of this {@code Circle}.
-   * @param y      The y coordinate of this {@code Circle}.
-   * @param color  The {@code Color} to draw this
-   *               {@code Circle} with.
-   * @param radius The radius of this {@code Circle}.
+   * @param x        The x coordinate of this {@code Circle}.
+   * @param y        The y coordinate of this {@code Circle}.
+   * @param color    The {@code Color} to draw this
+   *                 {@code Circle} with.
+   * @param diameter The diameter of this {@code Circle}.
    */
-  public Circle(int x, int y, Color color, int radius) {
-    super(x, y, color, radius, radius);
+  public Circle(int x, int y, Color color, int diameter) {
+    super(x, y, color, diameter, diameter);
   }
 
   /**
