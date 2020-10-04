@@ -15,7 +15,7 @@ import geometrygraphics.Drawable;
  * for position.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public abstract class Shape implements Serializable, Drawable {
   private static final long serialVersionUID = 1601779914L;
@@ -72,6 +72,20 @@ public abstract class Shape implements Serializable, Drawable {
     // at the start of a constructor
     this.area = -1;
     this.perimeter = -1;
+  }
+
+  /**
+   * Method to check whether a dimension is negative or not.
+   * If the dimension is valid (non-negative), this method
+   * does nothing. Otherwise, a
+   * {@code NegativeDimensionException} is thrown.
+   *
+   * @param dimension The dimension to check.
+   */
+  public static void checkDimension(int dimension) {
+    if (dimension < 0) {
+      throw new NegativeDimensionException(dimension);
+    }
   }
 
   /**

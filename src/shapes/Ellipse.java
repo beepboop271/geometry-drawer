@@ -8,7 +8,7 @@ import java.awt.Graphics;
  * height (the length of the horizontal and vertical axes).
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Ellipse extends Shape {
   private static final long serialVersionUID = 1601780556L;
@@ -31,6 +31,9 @@ public class Ellipse extends Shape {
    */
   public Ellipse(int x, int y, Color color, int width, int height) {
     super(x, y, color);
+    Shape.checkDimension(width);
+    Shape.checkDimension(height);
+
     this.width = width;
     this.height = height;
   }
