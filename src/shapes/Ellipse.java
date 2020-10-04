@@ -11,7 +11,7 @@ import java.awt.Graphics;
  * @version 1.1
  */
 public class Ellipse extends Shape {
-  private static final long serialVersionUID = 1601780556L;
+  private static final long serialVersionUID = 1601841191L;
 
   /** The width of this {@code Ellipse}. */
   private final int width;

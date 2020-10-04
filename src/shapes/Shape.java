@@ -18,7 +18,7 @@ import geometrygraphics.Drawable;
  * @version 1.2
  */
 public abstract class Shape implements Serializable, Drawable {
-  private static final long serialVersionUID = 1601779914L;
+  private static final long serialVersionUID = 1601841184L;
 
   /**
    * The x coordinate of this {@code Shape}. The x coordinate

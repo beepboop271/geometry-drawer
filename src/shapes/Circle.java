@@ -10,7 +10,7 @@ import java.awt.Color;
  * @version 1.1
  */
 public class Circle extends Ellipse {
-  private static final long serialVersionUID = 1601784889L;
+  private static final long serialVersionUID = 1601841198L;
 
   /**
    * Constructs a new {@code Circle} with the given
