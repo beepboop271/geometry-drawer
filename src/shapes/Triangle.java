@@ -11,10 +11,10 @@ import java.awt.Point;
  * {@code ArbitrarySimplePolygon}.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Triangle extends OrientedPolygon {
-  private static final long serialVersionUID = 1601850095L;
+  private static final long serialVersionUID = 1601939037L;
 
   public Triangle(
     int x,
@@ -28,14 +28,17 @@ public class Triangle extends OrientedPolygon {
   }
 
   /**
-   * Calculates and returns the area of this {@code Shape}.
+   * Calculates and returns the area of this {@code Shape}. It
+   * is almost certainly a better idea to use {@code getArea}
+   * instead, as that stores the result so the calculation
+   * only occurs once.
    * <p>
    * The formula used is {@code base * height / 2}.
    *
    * @return double, the area of this {@code Shape}.
    */
   @Override
-  public double calculateArea() {
+  protected double calculateArea() {
     return this.getBase()*this.getHeight()/2.0;
   }
 }

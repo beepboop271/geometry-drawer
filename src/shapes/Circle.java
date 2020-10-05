@@ -7,10 +7,10 @@ import java.awt.Color;
  * ellipse with equal width and height.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Circle extends Ellipse {
-  private static final long serialVersionUID = 1601841198L;
+  private static final long serialVersionUID = 1601937401L;
 
   /**
    * Constructs a new {@code Circle} with the given
@@ -27,28 +27,33 @@ public class Circle extends Ellipse {
   }
 
   /**
-   * Calculates and returns the area of this {@code Shape}.
+   * Calculates and returns the area of this {@code Shape}. It
+   * is almost certainly a better idea to use {@code getArea}
+   * instead, as that stores the result so the calculation
+   * only occurs once.
    * <p>
    * The formula used is {@code PI * radius * radius}.
    *
    * @return double, the area of this {@code Shape}.
    */
   @Override
-  public double calculateArea() {
+  protected double calculateArea() {
     double r = this.getWidth()/2.0;
     return Math.PI*r*r;
   }
 
   /**
    * Calculates and returns the perimeter of this
-   * {@code Shape}.
+   * {@code Shape}. It is almost certainly a better idea to
+   * use {@code getPerimeter} instead, as that stores the
+   * result so the calculation only occurs once.
    * <p>
    * The formula used is {@code PI * diameter}.
    *
    * @return double, the perimeter of this {@code Shape}.
    */
   @Override
-  public double calculatePerimeter() {
+  protected double calculatePerimeter() {
     return Math.PI*this.getWidth();
   }
 

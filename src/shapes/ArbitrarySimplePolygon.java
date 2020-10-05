@@ -16,10 +16,10 @@ import java.awt.Polygon;
  * not be properly calculated.
  *
  * @author Kevin Qiao
- * @version 1.2
+ * @version 1.3
  */
 public class ArbitrarySimplePolygon extends Shape {
-  private static final long serialVersionUID = 1601921603L;
+  private static final long serialVersionUID = 1601938953L;
 
   /**
    * The {@code Point}s which specify a path that forms a
@@ -84,12 +84,6 @@ public class ArbitrarySimplePolygon extends Shape {
     }
   }
 
-  @Override
-  public void draw(Graphics g) {
-    g.setColor(this.getColor());
-    g.fillPolygon(this.awtPolygon);
-  }
-
   /**
    * {@inheritDoc}
    * <p>
@@ -98,7 +92,7 @@ public class ArbitrarySimplePolygon extends Shape {
    * only works on simple polygons.
    */
   @Override
-  public double calculateArea() {
+  protected double calculateArea() {
     // TODO implement shoelace formula
     return -1;
   }
@@ -111,8 +105,14 @@ public class ArbitrarySimplePolygon extends Shape {
    * {@code ArbitrarySimplePolygon}.
    */
   @Override
-  public double calculatePerimeter() {
+  protected double calculatePerimeter() {
     // TODO sum distances between points
     return -1;
+  }
+
+  @Override
+  public void draw(Graphics g) {
+    g.setColor(this.getColor());
+    g.fillPolygon(this.awtPolygon);
   }
 }

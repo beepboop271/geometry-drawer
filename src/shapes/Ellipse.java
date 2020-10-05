@@ -8,10 +8,10 @@ import java.awt.Graphics;
  * height (the length of the horizontal and vertical axes).
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Ellipse extends Shape {
-  private static final long serialVersionUID = 1601841191L;
+  private static final long serialVersionUID = 1601937248L;
 
   /** The width of this {@code Ellipse}. */
   private final int width;
@@ -38,12 +38,6 @@ public class Ellipse extends Shape {
     this.height = height;
   }
 
-  @Override
-  public void draw(Graphics g) {
-    g.setColor(this.getColor());
-    g.fillOval(this.getX(), this.getY(), this.width, this.height);
-  }
-
   /**
    * {@inheritDoc}
    * <p>
@@ -51,7 +45,7 @@ public class Ellipse extends Shape {
    * semi-major axis}.
    */
   @Override
-  public double calculateArea() {
+  protected double calculateArea() {
     return Math.PI*(this.width/2.0)*(this.height/2.0);
   }
 
@@ -68,11 +62,17 @@ public class Ellipse extends Shape {
    * no need to check.
    */
   @Override
-  public double calculatePerimeter() {
+  protected double calculatePerimeter() {
     double a = this.width/2.0;
     double b = this.height/2.0;
     double h = 3*(a-b)*(a-b)/((a+b)*(a+b));
     return Math.PI*(a+b)*(1+(h/(10+Math.sqrt(4-h))));
+  }
+
+  @Override
+  public void draw(Graphics g) {
+    g.setColor(this.getColor());
+    g.fillOval(this.getX(), this.getY(), this.width, this.height);
   }
 
   /**

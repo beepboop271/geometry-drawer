@@ -15,10 +15,10 @@ import geometrygraphics.Drawable;
  * for position.
  *
  * @author Kevin Qiao
- * @version 1.2
+ * @version 1.3
  */
 public abstract class Shape implements Serializable, Drawable {
-  private static final long serialVersionUID = 1601841184L;
+  private static final long serialVersionUID = 1601937208L;
 
   /**
    * The x coordinate of this {@code Shape}. The x coordinate
@@ -89,6 +89,26 @@ public abstract class Shape implements Serializable, Drawable {
   }
 
   /**
+   * Calculates and returns the area of this {@code Shape}. It
+   * is almost certainly a better idea to use {@code getArea}
+   * instead, as that stores the result so the calculation
+   * only occurs once.
+   *
+   * @return double, the area of this {@code Shape}.
+   */
+  protected abstract double calculateArea();
+
+  /**
+   * Calculates and returns the perimeter of this
+   * {@code Shape}. It is almost certainly a better idea to
+   * use {@code getPerimeter} instead, as that stores the
+   * result so the calculation only occurs once.
+   *
+   * @return double, the perimeter of this {@code Shape}.
+   */
+  protected abstract double calculatePerimeter();
+
+  /**
    * Draws this {@code Shape} onto the supplied
    * {@code Graphics} object. The {@code Shape} should be
    * drawn such that the coordinates of the top left corner of
@@ -99,21 +119,6 @@ public abstract class Shape implements Serializable, Drawable {
    * @param g The {@code Graphics} object to draw to.
    */
   public abstract void draw(Graphics g);
-
-  /**
-   * Calculates and returns the area of this {@code Shape}.
-   *
-   * @return double, the area of this {@code Shape}.
-   */
-  public abstract double calculateArea();
-
-  /**
-   * Calculates and returns the perimeter of this
-   * {@code Shape}.
-   *
-   * @return double, the perimeter of this {@code Shape}.
-   */
-  public abstract double calculatePerimeter();
 
   /**
    * Translates this {@code Shape} by the given change to x
@@ -154,10 +159,10 @@ public abstract class Shape implements Serializable, Drawable {
   }
 
   /**
-   * Gets the {@code Colour} to draw this {@code Shape} in.
+   * Gets the {@code Colour} to draw this {@code Shape} with.
    *
    * @return {@code Color}, the {@code Colour} to draw this
-   *         {@code Shape} in.
+   *         {@code Shape} with.
    */
   public Color getColor() {
     return this.color;
@@ -165,7 +170,8 @@ public abstract class Shape implements Serializable, Drawable {
 
   /**
    * Gets the area of this {@code Shape}. The area is
-   * calculated if it hasn't been calculated before.
+   * calculated and stored if it hasn't been calculated
+   * before.
    *
    * @return double, the area of this {@code Shape}.
    */
@@ -178,7 +184,8 @@ public abstract class Shape implements Serializable, Drawable {
 
   /**
    * Gets the perimeter of this {@code Shape}. The perimeter
-   * is calculated if it hasn't been calculated before.
+   * is calculated and stored if it hasn't been calculated
+   * before.
    *
    * @return double, the perimeter of this {@code Shape}.
    */
