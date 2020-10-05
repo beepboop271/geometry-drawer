@@ -90,9 +90,9 @@ public abstract class Shape implements Serializable, Drawable {
 
   /**
    * Calculates and returns the area of this {@code Shape}. It
-   * is almost certainly a better idea to use {@code getArea}
-   * instead, as that stores the result so the calculation
-   * only occurs once.
+   * is almost certainly a better idea to use
+   * {@link #getArea()} instead, as that stores the result so
+   * the calculation only occurs once.
    *
    * @return double, the area of this {@code Shape}.
    */
@@ -101,7 +101,7 @@ public abstract class Shape implements Serializable, Drawable {
   /**
    * Calculates and returns the perimeter of this
    * {@code Shape}. It is almost certainly a better idea to
-   * use {@code getPerimeter} instead, as that stores the
+   * use {@link #getPerimeter()} instead, as that stores the
    * result so the calculation only occurs once.
    *
    * @return double, the perimeter of this {@code Shape}.

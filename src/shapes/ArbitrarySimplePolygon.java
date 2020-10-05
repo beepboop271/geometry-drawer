@@ -24,14 +24,16 @@ public class ArbitrarySimplePolygon extends Shape {
   /**
    * The {@code Point}s which specify a path that forms a
    * simple polygon. Each consecutive pair of {@code Point}s
-   * are the ends of a line segment of the Polygon. No
-   * guarantees are made that the points represent an actual
-   * simple polygon.
+   * are the ends of a line segment of the Polygon, with an
+   * additional line segment between the first and last
+   * element. No guarantees are made that the points represent
+   * an actual simple polygon.
    */
   private final Point[] points;
   /**
    * The {@code java.awt.Polygon} which holds an identical
-   * point list as {@code points}. Used only in {@code draw}.
+   * point list as {@code points}. Used only in
+   * {@link #draw(Graphics)}.
    */
   private final Polygon awtPolygon;
 
@@ -41,7 +43,9 @@ public class ArbitrarySimplePolygon extends Shape {
    * {@code Point}s are copied and translated so that the
    * given coordinates equal the top left corner of the
    * bounding box for the polygon specified in the
-   * {@code Point} array.
+   * {@code Point} array. The first and last {@code Point}s
+   * are to be joined by a line segment, in addition to all
+   * consecutive elements.
    *
    * @param x      The x coordinate of this
    *               {@code ArbitrarySimplePolygon}.

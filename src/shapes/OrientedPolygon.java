@@ -51,7 +51,9 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
    * height. All {@code Point}s are copied and translated so
    * that the given coordinates equal the top left corner of
    * the bounding box for the polygon specified in the
-   * {@code Point} array.
+   * {@code Point} array. The first and last {@code Point}s
+   * are to be joined by a line segment, in addition to all
+   * consecutive elements.
    *
    * @param x      The x coordinate of this
    *               {@code OrientedPolygon}.

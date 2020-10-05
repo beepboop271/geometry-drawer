@@ -28,9 +28,9 @@ public class Circle extends Ellipse {
 
   /**
    * Calculates and returns the area of this {@code Shape}. It
-   * is almost certainly a better idea to use {@code getArea}
-   * instead, as that stores the result so the calculation
-   * only occurs once.
+   * is almost certainly a better idea to use
+   * {@link #getArea()} instead, as that stores the result so
+   * the calculation only occurs once.
    * <p>
    * The formula used is {@code PI * radius * radius}.
    *
@@ -45,7 +45,7 @@ public class Circle extends Ellipse {
   /**
    * Calculates and returns the perimeter of this
    * {@code Shape}. It is almost certainly a better idea to
-   * use {@code getPerimeter} instead, as that stores the
+   * use {@link #getPerimeter()} instead, as that stores the
    * result so the calculation only occurs once.
    * <p>
    * The formula used is {@code PI * diameter}.
