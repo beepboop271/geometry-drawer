@@ -8,30 +8,39 @@ import java.awt.Point;
  * and height, i.e. an orientation. A subclass of
  * {@code OrientedPolygon} should be some polygon which has
  * use for storage of base and height, such as use in area
- * formulas. Polygons which have more than one bottom edge
- * do not count as an {@code OrientedPolygon}.
+ * formulas.
+ * <p>
+ * An {@code OrientedPolygon} can be created with a rotated
+ * {@code Point} list, as base and height should only be
+ * used for rotation invariant calculations such as area. As
+ * long as {@code base} and {@code height} are valid for
+ * some other rotation of the given polygon, the polygon is
+ * valid.
  *
  * @author Kevin Qiao
  * @version 1.0
  */
-public abstract class OrientedPolygon extends ArbitraryPolygon {
-  private static final long serialVersionUID = 1601830295L;
+public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
+  private static final long serialVersionUID = 1601933078L;
 
   /**
    * The length of this {@code OrientedPolygon}'s base. The
    * base is the single straight horizontal edge which lies
    * exactly on the bottom edge of the bounding box of this
-   * shape, i.e. the lowest y coordinate. No guarantees are
-   * made that the {@code Point} list has an edge which
-   * corresponds to this attribute.
+   * shape, i.e. the lowest y coordinate for some rotation of
+   * the polygon.
+   * <p>
+   * No guarantees are made that the {@code Point} list has an
+   * edge which corresponds to this attribute.
    */
   private final int base;
   /**
    * The height of this {@code OrientedPolygon}. The height is
-   * the vertical distance between the bottom and top edge of
-   * the bounding box of the polygon, i.e. the vertical
-   * distance between the lowest and highest point. No
-   * guarantees are made that the {@code Point} list has a
+   * the length of the longest possible straight line segment
+   * perpendicular to the base, between the base and another
+   * point within the polygon.
+   * <p>
+   * No guarantees are made that the {@code Point} list has a
    * height which corresponds to this attribute.
    */
   private final int height;
@@ -76,7 +85,11 @@ public abstract class OrientedPolygon extends ArbitraryPolygon {
    * Gets the length of this {@code OrientedPolygon}'s base.
    * The base is the single straight horizontal edge which
    * lies exactly on the bottom edge of the bounding box of
-   * this shape, i.e. the lowest y coordinate.
+   * this shape, i.e. the lowest y coordinate for some
+   * rotation of the polygon.
+   * <p>
+   * No guarantees are made that the {@code Point} list has an
+   * edge which corresponds to this attribute.
    *
    * @return int, the length of this {@code OrientedPolygon}'s
    *         base.
@@ -87,9 +100,12 @@ public abstract class OrientedPolygon extends ArbitraryPolygon {
 
   /**
    * The height of this {@code OrientedPolygon}. The height is
-   * the vertical distance between the bottom and top edge of
-   * the bounding box of the polygon, i.e. the vertical
-   * distance between the lowest and highest point.
+   * the length of the longest possible straight line segment
+   * perpendicular to the base, between the base and another
+   * point within the polygon.
+   * <p>
+   * No guarantees are made that the {@code Point} list has a
+   * height which corresponds to this attribute.
    *
    * @return int, the height of this {@code OrientedPolygon}.
    */

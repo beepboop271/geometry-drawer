@@ -16,10 +16,10 @@ import java.awt.Polygon;
  * not be properly calculated.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
-public class ArbitraryPolygon extends Shape {
-  private static final long serialVersionUID = 1601791285L;
+public class ArbitrarySimplePolygon extends Shape {
+  private static final long serialVersionUID = 1601921603L;
 
   /**
    * The {@code Point}s which specify a path that forms a
@@ -36,29 +36,29 @@ public class ArbitraryPolygon extends Shape {
   private final Polygon awtPolygon;
 
   /**
-   * Constructs a new {@code ArbitraryPolygon} with the given
-   * coodinates, color, and {@code Point} array. All
+   * Constructs a new {@code ArbitrarySimplePolygon} with the
+   * given coodinates, color, and {@code Point} array. All
    * {@code Point}s are copied and translated so that the
    * given coordinates equal the top left corner of the
    * bounding box for the polygon specified in the
    * {@code Point} array.
    *
    * @param x      The x coordinate of this
-   *               {@code ArbitraryPolygon}.
+   *               {@code ArbitrarySimplePolygon}.
    * @param y      The y coordinate of this
-   *               {@code ArbitraryPolygon}.
+   *               {@code ArbitrarySimplePolygon}.
    * @param color  The {@code Color} to draw this
-   *               {@code ArbitraryPolygon} with.
+   *               {@code ArbitrarySimplePolygon} with.
    * @param points The {@code Point}s which specify a path
    *               that forms a simple polygon.
    */
-  public ArbitraryPolygon(int x, int y, Color color, Point[] points) {
+  public ArbitrarySimplePolygon(int x, int y, Color color, Point[] points) {
     super(x, y, color);
 
     this.points = new Point[points.length];
     this.awtPolygon = new Polygon();
 
-    // find top left corner
+    // find top left bounding corner
     int minX = Integer.MAX_VALUE;
     int maxY = Integer.MIN_VALUE;
 
@@ -107,7 +107,8 @@ public class ArbitraryPolygon extends Shape {
    * {@inheritDoc}
    * <p>
    * The calculation made is just a sum of all the distances
-   * between each point in this {@code ArbitraryPolygon}.
+   * between each point in this
+   * {@code ArbitrarySimplePolygon}.
    */
   @Override
   public double calculatePerimeter() {
