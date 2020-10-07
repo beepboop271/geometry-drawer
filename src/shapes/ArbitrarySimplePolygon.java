@@ -16,10 +16,10 @@ import java.awt.Polygon;
  * not be properly calculated.
  *
  * @author Kevin Qiao
- * @version 1.3
+ * @version 1.4
  */
 public class ArbitrarySimplePolygon extends Shape {
-  private static final long serialVersionUID = 1601938953L;
+  private static final long serialVersionUID = 1602112893L;
 
   /**
    * The {@code Point}s which specify a path that forms a
@@ -97,8 +97,16 @@ public class ArbitrarySimplePolygon extends Shape {
    */
   @Override
   protected double calculateArea() {
-    // TODO implement shoelace formula
-    return -1;
+    double areaSum = 0;
+    
+    for (int i = 0; i < this.points.length-1; ++i) {
+      areaSum += this.points[i].x * this.points[i+1].y;
+      areaSum -= this.points[i].y * this.points[i+1].x;
+    }
+    areaSum += this.points[this.points.length-1].x * this.points[0].y;
+    areaSum -= this.points[this.points.length-1].y * this.points[0].x;
+
+    return Math.abs(areaSum)/2.0;
   }
 
   /**
@@ -110,13 +118,33 @@ public class ArbitrarySimplePolygon extends Shape {
    */
   @Override
   protected double calculatePerimeter() {
-    // TODO sum distances between points
-    return -1;
+    double perimeter = 0;
+    int dx, dy;
+
+    for (int i = 0; i < this.points.length-1; ++i) {
+      dx = this.points[i+1].x - this.points[i].x;
+      dy = this.points[i+1].y - this.points[i].y;
+      perimeter += Math.sqrt(dx*dx + dy*dy);
+    }
+    dx = this.points[0].x - this.points[this.points.length-1].x;
+    dy = this.points[0].y - this.points[this.points.length-1].y;
+    perimeter += Math.sqrt(dx*dx + dy*dy);
+
+    return perimeter;
   }
 
   @Override
   public void draw(Graphics g) {
     g.setColor(this.getColor());
     g.fillPolygon(this.awtPolygon);
+  }
+
+  @Override
+  public void translate(int dx, int dy) {
+    super.translate(dx, dy);
+    for (int i = 0; i < this.points.length; ++i) {
+      this.points[i].translate(dx, dy);
+    }
+    this.awtPolygon.translate(dx, dy);
   }
 }
