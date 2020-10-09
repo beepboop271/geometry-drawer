@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 
 import geometrygraphics.Drawable;
+import geometrygraphics.Translateable;
 
 /**
  * A class to represent any shape to be used in the geometry
@@ -15,10 +16,10 @@ import geometrygraphics.Drawable;
  * for position.
  *
  * @author Kevin Qiao
- * @version 1.3
+ * @version 1.4
  */
-public abstract class Shape implements Serializable, Drawable {
-  private static final long serialVersionUID = 1601937208L;
+public abstract class Shape implements Serializable, Drawable, Translateable {
+  private static final long serialVersionUID = 1602214395L;
 
   /**
    * The x coordinate of this {@code Shape}. The x coordinate
@@ -109,26 +110,17 @@ public abstract class Shape implements Serializable, Drawable {
   protected abstract double calculatePerimeter();
 
   /**
-   * Draws this {@code Shape} onto the supplied
-   * {@code Graphics} object. The {@code Shape} should be
+   * {@inheritDoc}
+   * <p>
+   * The {@code Shape} should be
    * drawn such that the coordinates of the top left corner of
    * the bounding box is equal to the coordinates specified in
    * the {@code x} and {@code y} attributes of this
    * {@code Shape}.
-   *
-   * @param g The {@code Graphics} object to draw to.
    */
   public abstract void draw(Graphics g);
 
-  /**
-   * Translates this {@code Shape} by the given change to x
-   * and y coordinates.
-   *
-   * @param dx The change in x coordinates to apply to this
-   *           {@code Shape}.
-   * @param dy The change in y coordinates to apply to this
-   *           {@code Shape}.
-   */
+  @Override
   public void translate(int dx, int dy) {
     this.x += dx;
     this.y += dy;

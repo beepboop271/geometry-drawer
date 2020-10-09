@@ -10,40 +10,45 @@ import java.awt.Point;
  * general formula.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Rhombus extends Parallelogram {
-  private static final long serialVersionUID = 1601961814L;
+  private static final long serialVersionUID = 1602214923L;
 
   /**
    * Constructs a new {@code Rhombus} with the given
-   * coordinates, color, {@code Point} array, side length, and
-   * height. All {@code Point}s are copied and translated so
-   * that the given coordinates equal the top left corner of
-   * the bounding box for the polygon specified in the
-   * {@code Point} array. The first and last {@code Point}s
-   * are to be joined by a line segment, in addition to all
-   * consecutive elements.
+   * coordinates, color, {@code Point} array, rotation, side
+   * length, and height. All {@code Point}s are copied and
+   * translated so that the given coordinates equal the top
+   * left corner of the bounding box for the polygon specified
+   * in the {@code Point} array with the specified rotation.
+   * The first and last {@code Point}s are to be joined by a
+   * line segment, in addition to all consecutive elements.
    *
-   * @param x      The x coordinate of this {@code Rhombus}.
-   * @param y      The y coordinate of this {@code Rhombus}.
-   * @param color  The {@code Color} to draw this
-   *               {@code Rhombus} with.
-   * @param points The {@code Point}s which specify a path
-   *               that forms a rhombus.
-   * @param size   The size of this {@code Rhombus}, the
-   *               length of all sides.
-   * @param height The height of this {@code Rhombus}.
+   * @param x        The x coordinate of this {@code Rhombus}.
+   * @param y        The y coordinate of this {@code Rhombus}.
+   * @param color    The {@code Color} to draw this
+   *                 {@code Rhombus} with.
+   * @param points   The {@code Point}s which specify a path
+   *                 that forms a rhombus.
+   * @param rotation The amount, in degrees, this
+   *                 {@code Rhombus} is rotated from its
+   *                 intial orientation. A positive value
+   *                 results in an anticlockwise rotation.
+   * @param size     The size of this {@code Rhombus}, the
+   *                 length of all sides.
+   * @param height   The height of this {@code Rhombus}.
    */
   public Rhombus(
     int x,
     int y,
     Color color,
     Point[] points,
+    int rotation,
     int size,
     int height
   ) {
-    super(x, y, color, points, size, height);
+    super(x, y, color, points, rotation, size, height);
   }
 
   /**

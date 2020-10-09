@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
+import geometrygraphics.Rotateable;
+
 /**
  * A class to represent any arbitrary simple polygon. Stores
  * an array of points representing the connected line
@@ -16,10 +18,10 @@ import java.awt.Polygon;
  * not be properly calculated.
  *
  * @author Kevin Qiao
- * @version 1.4
+ * @version 1.5
  */
-public class ArbitrarySimplePolygon extends Shape {
-  private static final long serialVersionUID = 1602112893L;
+public class ArbitrarySimplePolygon extends Shape implements Rotateable {
+  private static final long serialVersionUID = 1602210664L;
 
   /**
    * The {@code Point}s which specify a path that forms a
@@ -35,32 +37,52 @@ public class ArbitrarySimplePolygon extends Shape {
    * point list as {@code points}. Used only in
    * {@link #draw(Graphics)}.
    */
-  private final Polygon awtPolygon;
+  private Polygon awtPolygon;
+  /**
+   * The amount, in degrees, this polygon is rotated from its
+   * intial orientation. A positive value results in an
+   * anticlockwise rotation. The polygon is rotated relative
+   * to the origin, then translated back so that its {@code x}
+   * and {@code y} still represent the coordinates of the top
+   * left corner of its bounding (non-rotated) rectangle.
+   */
+  private int rotation;
 
   /**
    * Constructs a new {@code ArbitrarySimplePolygon} with the
-   * given coodinates, color, and {@code Point} array. All
-   * {@code Point}s are copied and translated so that the
-   * given coordinates equal the top left corner of the
-   * bounding box for the polygon specified in the
-   * {@code Point} array. The first and last {@code Point}s
-   * are to be joined by a line segment, in addition to all
-   * consecutive elements.
+   * given coodinates, color, {@code Point} array, and
+   * rotation. All {@code Point}s are copied and translated so
+   * that the given coordinates equal the top left corner of
+   * the bounding box for the polygon specified in the
+   * {@code Point} array with the specified rotation. The
+   * first and last {@code Point}s are to be joined by a line
+   * segment, in addition to all consecutive elements.
    *
-   * @param x      The x coordinate of this
-   *               {@code ArbitrarySimplePolygon}.
-   * @param y      The y coordinate of this
-   *               {@code ArbitrarySimplePolygon}.
-   * @param color  The {@code Color} to draw this
-   *               {@code ArbitrarySimplePolygon} with.
-   * @param points The {@code Point}s which specify a path
-   *               that forms a simple polygon.
+   * @param x        The x coordinate of this
+   *                 {@code ArbitrarySimplePolygon}.
+   * @param y        The y coordinate of this
+   *                 {@code ArbitrarySimplePolygon}.
+   * @param color    The {@code Color} to draw this
+   *                 {@code ArbitrarySimplePolygon} with.
+   * @param points   The {@code Point}s which specify a path
+   *                 that forms a simple polygon.
+   * @param rotation The amount, in degrees, this polygon is
+   *                 rotated from its intial orientation. A
+   *                 positive value results in an
+   *                 anticlockwise rotation.
    */
-  public ArbitrarySimplePolygon(int x, int y, Color color, Point[] points) {
+  public ArbitrarySimplePolygon(
+    int x,
+    int y,
+    Color color,
+    Point[] points,
+    int rotation
+  ) {
     super(x, y, color);
 
     this.points = new Point[points.length];
     this.awtPolygon = new Polygon();
+    this.rotation = rotation;
 
     // find top left bounding corner
     int minX = Integer.MAX_VALUE;
@@ -70,6 +92,8 @@ public class ArbitrarySimplePolygon extends Shape {
     // references that can be modified externally
     for (int i = 0; i < points.length; ++i) {
       this.points[i] = new Point(points[i]);
+      this.awtPolygon.addPoint(this.points[i].x, this.points[i].y);
+
       if (points[i].x < minX) {
         minX = points[i].x;
       }
@@ -78,14 +102,10 @@ public class ArbitrarySimplePolygon extends Shape {
       }
     }
 
-    // translate points so that x, y represents the top-left
-    // corner of the bounding box
-    int dx = x-minX;
-    int dy = y-maxY;
-    for (int i = 0; i < this.points.length; ++i) {
-      this.points[i].translate(dx, dy);
-      this.awtPolygon.addPoint(this.points[i].x, this.points[i].y);
-    }
+    this.updateCoords(minX, maxY);
+    // might do nothing, so coords still need to be updated
+    // above
+    this.rotateTo(this.rotation);
   }
 
   /**
@@ -142,9 +162,58 @@ public class ArbitrarySimplePolygon extends Shape {
   @Override
   public void translate(int dx, int dy) {
     super.translate(dx, dy);
+    this.translateSelf(dx, dy);
+  }
+
+  @Override
+  public void rotateTo(int degrees) {
+    if ((degrees-this.rotation) % 360 == 0) {
+      return;
+    }
+    this.rotateBy(degrees-this.rotation);
+  }
+
+  @Override
+  public void rotateBy(int degreeChange) {
+    double sinT = Math.sin(Math.toRadians(degreeChange));
+    double cosT = Math.cos(Math.toRadians(degreeChange));
+
+    int minX = Integer.MAX_VALUE;
+    int maxY = Integer.MIN_VALUE;
+
+    Polygon newPolygon = new Polygon();
+    for (int i = 0; i < this.points.length; ++i) {
+      this.points[i].x = (int)Math.round(
+        this.points[i].x*cosT-this.points[i].y*sinT
+      );
+      this.points[i].y = (int)Math.round(
+        this.points[i].x*sinT+this.points[i].y*cosT
+      );
+      newPolygon.addPoint(this.points[i].x, this.points[i].y);
+
+      if (this.points[i].x < minX) {
+        minX = this.points[i].x;
+      }
+      if (this.points[i].y > maxY) {
+        maxY = this.points[i].y;
+      }
+    }
+
+    this.awtPolygon = newPolygon;
+    this.updateCoords(minX, maxY);
+  }
+
+  private void translateSelf(int dx, int dy) {
     for (int i = 0; i < this.points.length; ++i) {
       this.points[i].translate(dx, dy);
     }
     this.awtPolygon.translate(dx, dy);
+  }
+  
+  private void updateCoords(int minX, int maxY) {
+    if ((minX == this.getX()) && (maxY == this.getY())) {
+      return;
+    }
+    this.translateSelf(this.getX()-minX, this.getY()-maxY);
   }
 }

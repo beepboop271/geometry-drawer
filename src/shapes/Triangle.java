@@ -11,39 +11,47 @@ import java.awt.Point;
  * {@code ArbitrarySimplePolygon}.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Triangle extends OrientedPolygon {
-  private static final long serialVersionUID = 1601939037L;
+  private static final long serialVersionUID = 1602214330L;
 
   /**
    * Constructs a new {@code Triangle} with the given
-   * coordinates, color, {@code Point} array, base, and
-   * height. All {@code Point}s are copied and translated so
-   * that the given coordinates equal the top left corner of
-   * the bounding box for the polygon specified in the
-   * {@code Point} array. The first and last {@code Point}s
-   * are to be joined by a line segment, in addition to all
-   * consecutive elements.
+   * coordinates, color, {@code Point} array, rotation, base,
+   * and height. All {@code Point}s are copied and translated
+   * so that the given coordinates equal the top left corner
+   * of the bounding box for the polygon specified in the
+   * {@code Point} array with the specified rotation. The
+   * first and last {@code Point}s are to be joined by a line
+   * segment, in addition to all consecutive elements.
    *
-   * @param x      The x coordinate of this {@code Triangle}.
-   * @param y      The y coordinate of this {@code Triangle}.
-   * @param color  The {@code Color} to draw this
-   *               {@code Triangle} with.
-   * @param points The {@code Point}s which specify a path
-   *               that forms a triangle.
-   * @param base   The length of this {@code Triangle}'s base.
-   * @param height The height of this {@code Triangle}.
+   * @param x        The x coordinate of this
+   *                 {@code Triangle}.
+   * @param y        The y coordinate of this
+   *                 {@code Triangle}.
+   * @param color    The {@code Color} to draw this
+   *                 {@code Triangle} with.
+   * @param points   The {@code Point}s which specify a path
+   *                 that forms a triangle.
+   * @param rotation The amount, in degrees, this
+   *                 {@code Triangle} is rotated from its
+   *                 intial orientation. A positive value
+   *                 results in an anticlockwise rotation.
+   * @param base     The length of this {@code Triangle}'s
+   *                 base.
+   * @param height   The height of this {@code Triangle}.
    */
   public Triangle(
     int x,
     int y,
     Color color,
     Point[] points,
+    int rotation,
     int base,
     int height
   ) {
-    super(x, y, color, points, base, height);
+    super(x, y, color, points, rotation, base, height);
   }
 
   /**

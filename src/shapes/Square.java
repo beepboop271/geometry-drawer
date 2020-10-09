@@ -10,32 +10,43 @@ import java.awt.Point;
  * {@code size*size} instead of more general formulas.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Square extends Rectangle {
-  private static final long serialVersionUID = 1601961419L;
+  private static final long serialVersionUID = 1602214295L;
 
   /**
    * Constructs a new {@code Square} with the given
-   * coordinates, color, {@code Point} array, and side length.
-   * All {@code Point}s are copied and translated so that the
-   * given coordinates equal the top left corner of the
-   * bounding box for the polygon specified in the
-   * {@code Point} array. The first and last {@code Point}s
-   * are to be joined by a line segment, in addition to all
-   * consecutive elements.
+   * coordinates, color, {@code Point} array, rotation, and
+   * side length. All {@code Point}s are copied and translated
+   * so that the given coordinates equal the top left corner
+   * of the bounding box for the polygon specified in the
+   * {@code Point} array with the specified rotation. The
+   * first and last {@code Point}s are to be joined by a line
+   * segment, in addition to all consecutive elements.
    *
-   * @param x      The x coordinate of this {@code Square}.
-   * @param y      The y coordinate of this {@code Square}.
-   * @param color  The {@code Color} to draw this
-   *               {@code Square} with.
-   * @param points The {@code Point}s which specify a path
-   *               that forms a square.
-   * @param size   The size of this {@code Square}, the length
-   *               of all sides.
+   * @param x        The x coordinate of this {@code Square}.
+   * @param y        The y coordinate of this {@code Square}.
+   * @param color    The {@code Color} to draw this
+   *                 {@code Square} with.
+   * @param points   The {@code Point}s which specify a path
+   *                 that forms a square.
+   * @param rotation The amount, in degrees, this
+   *                 {@code Square} is rotated from its intial
+   *                 orientation. A positive value results in
+   *                 an anticlockwise rotation.
+   * @param size     The size of this {@code Square}, the
+   *                 length of all sides.
    */
-  public Square(int x, int y, Color color, Point[] points, int size) {
-    super(x, y, color, points, size, size);
+  public Square(
+    int x,
+    int y,
+    Color color,
+    Point[] points,
+    int rotation,
+    int size
+  ) {
+    super(x, y, color, points, rotation, size, size);
   }
 
   /**

@@ -12,10 +12,10 @@ import java.awt.Point;
  * {@code ArbitrarySimplePolygon}.
  *
  * @author Kevin Qiao
- * @version 1.0
+ * @version 1.1
  */
 public class Trapezoid extends OrientedPolygon {
-  private static final long serialVersionUID = 1601939305L;
+  private static final long serialVersionUID = 1602214307L;
 
   /**
    * The length of the opposite edge parallel to this
@@ -30,13 +30,14 @@ public class Trapezoid extends OrientedPolygon {
 
   /**
    * Constructs a new {@code Trapezoid} with the given
-   * coordinates, color, {@code Point} array, base, height,
-   * and opposite base. All {@code Point}s are copied and
-   * translated so that the given coordinates equal the top
-   * left corner of the bounding box for the polygon specified
-   * in the {@code Point} array. The first and last
-   * {@code Point}s are to be joined by a line segment, in
-   * addition to all consecutive elements.
+   * coordinates, color, {@code Point} array, rotation, base,
+   * height, and opposite base. All {@code Point}s are copied
+   * and translated so that the given coordinates equal the
+   * top left corner of the bounding box for the polygon
+   * specified in the {@code Point} array with the specified
+   * rotation. The first and last {@code Point}s are to be
+   * joined by a line segment, in addition to all consecutive
+   * elements.
    *
    * @param x            The x coordinate of this
    *                     {@code Trapezoid}.
@@ -46,6 +47,10 @@ public class Trapezoid extends OrientedPolygon {
    *                     {@code Trapezoid} with.
    * @param points       The {@code Point}s which specify a
    *                     path that forms a trapezoid.
+   * @param rotation     The amount, in degrees, this
+   *                     {@code Trapezoid} is rotated from its
+   *                     intial orientation. A positive value
+   *                     results in an anticlockwise rotation.
    * @param base         The length of this
    *                     {@code Trapezoid}'s base.
    * @param height       The height of this {@code Trapezoid}.
@@ -58,11 +63,12 @@ public class Trapezoid extends OrientedPolygon {
     int y,
     Color color,
     Point[] points,
+    int rotation,
     int base,
     int height,
     int oppositeBase
   ) {
-    super(x, y, color, points, base, height);
+    super(x, y, color, points, rotation, base, height);
     Shape.checkDimension(oppositeBase);
 
     this.oppositeBase = oppositeBase;
