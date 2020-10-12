@@ -14,6 +14,21 @@ import javax.swing.event.ChangeListener;
 
 import shapes.ShapeBuilder;
 
+/**
+ * Holds the ShapeBuilderPanels for several variations of
+ * builders of a single Shape, with a JComboBox to switch
+ * variations.
+ * <p>
+ * Events:
+ * <p>
+ * When the combo box has a new option selected, the panel
+ * shows the appropriate SingleShapeBuilderPanel for the
+ * selected variation. Other events are handled by the
+ * superclass.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class VariableShapeBuilderPanel extends ShapeBuilderPanel implements
   ItemListener {
 

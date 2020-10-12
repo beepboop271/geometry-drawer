@@ -19,6 +19,26 @@ import javax.swing.event.ChangeListener;
 
 import shapes.Shape;
 
+/**
+ * Holds a scrollable list of ShapeInfoPanels, a
+ * SingleShapeSelectionPanel, and transform all shape
+ * options.
+ * <p>
+ * Events:
+ * <p>
+ * When the ShapeDrawingPanel selects shapes
+ * (ChangeListener), the scrollable list is set to show the
+ * selected shapes.
+ * <p>
+ * When a button is pressed (ActionListener), if the button
+ * was a "select" button, the selected Shape is set as the
+ * detailed selection Shape. Otherwise, the event is some
+ * operation to complete in ShapeDrawingPanel and so the
+ * event is forwarded to the GeometryDrawerFrame.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapeSelectionPanel extends JPanel implements ChangeListener, ActionListener {
   private static final JLabel EMPTY_LABEL = new JLabel("No selection");
 

@@ -17,7 +17,28 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * 
+ * A JPanel containing a JLabel, JSlider, and JTextField.
+ * The slider and text field are linked together, and the
+ * text field can allow the user to input values past the
+ * slider's limits, if the panel was created to allow such
+ * behaviour.
+ * <p>
+ * Events:
+ * <p>
+ * Keyboard input (KeyListener) and slider dragging
+ * (ChangeListener) modify the value of {@code this.value},
+ * whenever this.value is changed a new ChangeEvent is
+ * emitted to {@code this.listener}.
+ * <p>
+ * When the user clicks on a text field (FocusListener), the
+ * whole field is selected.
+ * <p>
+ * When this slider is added to be shown to the user, it
+ * emits a new ChangeEvent to provide initial state to
+ * {@code this.listener}.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
  */
 public class LabelledTextSliderPanel extends JPanel implements
   ChangeListener,
@@ -151,16 +172,10 @@ public class LabelledTextSliderPanel extends JPanel implements
     return this.value;
   }
 
-  /**
-   * @return the minValue
-   */
   public int getMinValue() {
     return minValue;
   }
 
-  /**
-   * @return the maxValue
-   */
   public int getMaxValue() {
     return maxValue;
   }

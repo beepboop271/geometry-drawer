@@ -13,6 +13,18 @@ import javax.swing.JTextArea;
 
 import shapes.Shape;
 
+/**
+ * Displays translate and possibly rotate options for a
+ * single Shape that has already been created.
+ * <p>
+ * Events:
+ * <p>
+ * When the apply button is clicked, the transformation
+ * operation is forwarded to GeometryDrawerFrame.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class SingleShapeSelectionPanel extends JPanel implements
   ActionListener {
   private static final JLabel EMPTY_LABEL = new JLabel("No detail selection");

@@ -11,6 +11,26 @@ import javax.swing.JPanel;
 import shapes.Shape;
 import shapes.ShapeFactory;
 
+/**
+ * The main JFrame of the program. Contains the 3 main views
+ * to see, create, and manage shapes.
+ * <p>
+ * Events:
+ * <p>
+ * ShapeFactoryPanel emits "Create Shape" and "Create Shape
+ * at Pin" when the corresponding buttons are pressed, and
+ * those events trigger shape additions in
+ * ShapeDrawingPanel.
+ * <p>
+ * ShapeSelectionPanel emits "Remove Shape", "Apply
+ * Translate", "Apply Rotate", and "Apply Translate All"
+ * when the corresponding buttons are pressed, and those
+ * events cause removals or transformations in
+ * ShapeDrawingPanel.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class GeometryDrawerFrame extends JFrame implements ActionListener {
 
   private final ShapeDrawingPanel shapeDrawingPanel;

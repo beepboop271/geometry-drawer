@@ -11,6 +11,21 @@ import javax.swing.JTextArea;
 
 import shapes.Shape;
 
+/**
+ * Displays info about a single Shape, as well as select and
+ * remove buttons to get more detailed options or remove the
+ * Shape from the drawing.
+ * <p>
+ * Events:
+ * <p>
+ * When the select or remove JButtons are pressed
+ * (ActionListener), the event is forwarded to the
+ * ShapeSelectionPanel with an updated source of the Shape
+ * to perform the action on.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapeInfoPanel extends JPanel implements ActionListener {
   
   private final ActionListener listener;

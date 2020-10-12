@@ -20,6 +20,30 @@ import javax.swing.event.ChangeListener;
 import shapes.Shape;
 import shapes.ShapeFactory;
 
+/**
+ * Holds all the possible ShapeBuilderPanels, shows a
+ * preview of the current Shape or the error message, and
+ * provides the buttons to create shapes.
+ * <p>
+ * Events:
+ * <p>
+ * When the JComboBox is changed (ItemListener), the
+ * ShapeBuilderPanel is updated to show the correct
+ * different panel.
+ * <p>
+ * When the ShapeBuilderPanel produces a new Shape
+ * (ChangeListener), either the preview window is set to
+ * display that shape or the error field is set to display
+ * the error message.
+ * <p>
+ * When the create JButtons are pressed (ActionListener) and
+ * there is no current error message from the builder, the
+ * event is forwarded to GeometryDrawerFrame with an updated
+ * source of the produced Shape.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapeFactoryPanel extends JPanel implements
   ItemListener,
   ChangeListener,

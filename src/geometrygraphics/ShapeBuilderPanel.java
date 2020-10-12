@@ -8,6 +8,19 @@ import shapes.InvalidShapeException;
 import shapes.Shape;
 import shapes.ShapeBuilder;
 
+/**
+ * A JPanel which can build one type of shape.
+ * <p>
+ * Events:
+ * <p>
+ * When a slider within this panel is changed
+ * (ChangeListener), the ShapeBuilder associated with this
+ * panel builds a new Shape and emits a new ChangeEvent to
+ * ShapeFactoryPanel after building.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public abstract class ShapeBuilderPanel extends JPanel implements
   ChangeListener {
 
@@ -41,9 +54,6 @@ public abstract class ShapeBuilderPanel extends JPanel implements
     }
   }
 
-  /**
-   * @return the product
-   */
   public Shape getProduct() {
     return this.product;
   }
@@ -52,9 +62,6 @@ public abstract class ShapeBuilderPanel extends JPanel implements
     return this.getBuilder().build();
   }
 
-  /**
-   * @return the errorText
-   */
   public String getErrorText() {
     return this.errorText;
   }

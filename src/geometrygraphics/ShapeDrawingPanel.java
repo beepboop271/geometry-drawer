@@ -19,6 +19,24 @@ import javax.swing.event.ChangeListener;
 import shapes.Circle;
 import shapes.Shape;
 
+/**
+ * Holds the list of all Shapes to draw and draws them. This
+ * panel also performs file IO.
+ * <p>
+ * Events:
+ * <p>
+ * When a click is made (MouseListener), the pin location is
+ * set to the click location. In addition, any intersecting
+ * shapes are selected.
+ * <p>
+ * Whenever shapes are selected through clicks or by calling
+ * selectAll(), a new ChangeEvent is created containing the
+ * set of selected shapes and emitted to the
+ * ShapeSelectionPanel.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapeDrawingPanel extends CoordinatePlanePanel implements
   MouseListener {
 

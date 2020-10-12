@@ -11,6 +11,18 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
 
+/**
+ * A JPanel containing x-y axes. The origin can be placed
+ * anywhere in the panel. The y-axis is positive upwards,
+ * not downwards.
+ * <p>
+ * Events:
+ * <p>
+ * Mouse scrolling zooms the panel in/out.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public abstract class CoordinatePlanePanel extends JPanel implements MouseWheelListener {
   private static final double SCROLL_SCALE_FACTOR = 0.05;
   private static final Color BACKGROUND = new Color(255, 255, 255);

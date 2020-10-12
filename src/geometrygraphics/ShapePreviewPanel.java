@@ -5,6 +5,12 @@ import java.awt.Graphics2D;
 
 import shapes.Shape;
 
+/**
+ * Draws a single Shape. No events.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapePreviewPanel extends CoordinatePlanePanel {
 
   private Shape shapeToPreview;

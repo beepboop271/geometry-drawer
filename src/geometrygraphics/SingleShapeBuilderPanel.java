@@ -6,6 +6,13 @@ import javax.swing.event.ChangeListener;
 
 import shapes.ShapeBuilder;
 
+/**
+ * Holds the sliders required to set arguments for a
+ * ShapeBuilder. All events handled in superclass.
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class SingleShapeBuilderPanel extends ShapeBuilderPanel {
 
   private static final int DEFAULT_SLIDER_RANGE = 400;

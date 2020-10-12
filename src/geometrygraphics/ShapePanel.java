@@ -13,6 +13,19 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Holds the main drawing panel, as well as the file IO
+ * buttons and the select all button.
+ * <p>
+ * Events:
+ * <p>
+ * When a button is clicked (ActionListener), the
+ * corresponding action is performed with the main drawing
+ * panel (ShapeDrawingPanel).
+ *
+ * @author Kevin Qiao
+ * @version 1.0
+ */
 public class ShapePanel extends JPanel implements ActionListener {
 
   ShapeDrawingPanel drawingPanel;
