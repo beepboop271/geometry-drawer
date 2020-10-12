@@ -74,6 +74,13 @@ public class Ellipse extends Shape {
   }
 
   @Override
+  public boolean contains(Point p) {
+    int dx = p.x - this.getX();
+    int dy = this.getY() - p.y;
+    return (dx >= 0) && (dx < this.width) && (dy >= 0) && (dy < this.height);
+  }
+
+  @Override
   public void draw(Graphics g) {
     g.setColor(this.getColor());
     g.translate(0, -this.height);
@@ -84,13 +91,6 @@ public class Ellipse extends Shape {
   @Override
   public Rectangle getBounds() {
     return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-  }
-
-  @Override
-  public boolean contains(Point p) {
-    int dx = p.x - this.getX();
-    int dy = this.getY() - p.y;
-    return (dx >= 0) && (dx < this.width) && (dy >= 0) && (dy < this.height);
   }
 
   /**
@@ -111,9 +111,23 @@ public class Ellipse extends Shape {
     return this.height;
   }
 
+  /**
+   * A builder class for an {@code Ellipse}. Adds arguments
+   * for width and height in addition to those from
+   * {@code ShapeBuilder}.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class Builder extends ShapeBuilder {
+    /** The {@code String} to represent the argument of width. */
     private static final String WIDTH = "Width";
-    private static final String HEIGHT = "Height";    
+    /** The {@code String} to represent the argument of height. */
+    private static final String HEIGHT = "Height";
+    /**
+     * The set of arguments this {@code Builder} requires in
+     * addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(
@@ -122,6 +136,10 @@ public class Ellipse extends Shape {
         )
       );
 
+    /**
+     * Creates an {@code Ellipse} builder which uses width
+     * and height to construct an {@code Ellipse}.
+     */
     public Builder() {
       super("Ellipse", "Lengths", Builder.REQUIRED_ARGS);
     }
@@ -137,20 +155,42 @@ public class Ellipse extends Shape {
       );
     }
 
+    /**
+     * Sets the width argument of this {@code Builder}.
+     *
+     * @param width The width argument of this {@code Builder}.
+     * @return {@code Builder}, this {@code Builder}.
+     */
     public Builder withWidth(int width) {
       this.withArg(Builder.WIDTH, width);
       return this;
     }
 
+    /**
+     * Sets the height argument of this {@code Builder}.
+     *
+     * @param height The height argument of this {@code Builder}.
+     * @return {@code Builder}, this {@code Builder}.
+     */
     public Builder withHeight(int height) {
       this.withArg(Builder.HEIGHT, height);
       return this;
     }
 
+    /**
+     * Gets the width argument of this {@code Builder}.
+     *
+     * @return int, the width argument of this {@code Builder}.
+     */
     public int getWidth() {
       return this.getArg(Builder.WIDTH);
     }
 
+    /**
+     * Gets the height argument of this {@code Builder}.
+     *
+     * @return int, the height argument of this {@code Builder}.
+     */
     public int getHeight() {
       return this.getArg(Builder.HEIGHT);
     }

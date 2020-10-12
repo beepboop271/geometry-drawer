@@ -17,10 +17,13 @@ import geometrygraphics.Translateable;
  * for position.
  *
  * @author Kevin Qiao
- * @version 1.5
+ * @version 1.6
  */
 public abstract class Shape implements Serializable, Drawable, Translateable {
-  private static final long serialVersionUID = 1602471240L;
+  private static final long serialVersionUID = 1602488594L;
+
+  /** The {@code Colour} to draw this {@code Shape} with. */
+  private final Color color;
 
   /**
    * The x coordinate of this {@code Shape}. The x coordinate
@@ -36,8 +39,6 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
    * bounding box top edge.
    */
   private int y;
-  /** The {@code Colour} to draw this {@code Shape} with. */
-  private final Color color;
 
   /**
    * The area of this {@code Shape}. A negative value means
@@ -91,6 +92,28 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
   }
 
   /**
+   * {@inheritDoc}
+   * <p>
+   * The {@code Shape} should be
+   * drawn such that the coordinates of the top left corner of
+   * the bounding box is equal to the coordinates specified in
+   * the {@code x} and {@code y} attributes of this
+   * {@code Shape}.
+   */
+  @Override
+  public abstract void draw(Graphics g);
+
+  /**
+   * Returns whether or not the given point can be considered
+   * within this {@code Shape}.
+   *
+   * @param p The {@code Point} to check for insideness.
+   * @return boolean, whether or not the point can be
+   *         considered inside this {@code Shape}.
+   */
+  public abstract boolean contains(Point p);
+
+  /**
    * Calculates and returns the area of this {@code Shape}. It
    * is almost certainly a better idea to use
    * {@link #getArea()} instead, as that stores the result so
@@ -110,17 +133,16 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
    */
   protected abstract double calculatePerimeter();
 
-  /**
-   * {@inheritDoc}
-   * <p>
-   * The {@code Shape} should be
-   * drawn such that the coordinates of the top left corner of
-   * the bounding box is equal to the coordinates specified in
-   * the {@code x} and {@code y} attributes of this
-   * {@code Shape}.
-   */
   @Override
-  public abstract void draw(Graphics g);
+  public String toString() {
+    return super.toString()+"[\n"
+      +"x: "+this.x+", "
+      +"y: "+this.y+", "
+      +"color: #"+Integer.toHexString(this.color.getRGB()).substring(2)+", "
+      +"area: "+String.format("%.3f", this.getArea())+", "
+      +"perimeter: "+String.format("%.3f", this.getPerimeter())
+      +"]";
+  }
 
   @Override
   public void translate(int dx, int dy) {
@@ -128,7 +150,15 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
     this.y += dy;
   }
 
-  public abstract boolean contains(Point p);
+  /**
+   * Gets the {@code Colour} to draw this {@code Shape} with.
+   *
+   * @return {@code Color}, the {@code Colour} to draw this
+   *         {@code Shape} with.
+   */
+  public Color getColor() {
+    return this.color;
+  }
 
   /**
    * Gets the x coordinate of this {@code Shape}. The x
@@ -152,16 +182,6 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
    */
   public int getY() {
     return this.y;
-  }
-
-  /**
-   * Gets the {@code Colour} to draw this {@code Shape} with.
-   *
-   * @return {@code Color}, the {@code Colour} to draw this
-   *         {@code Shape} with.
-   */
-  public Color getColor() {
-    return this.color;
   }
 
   /**
