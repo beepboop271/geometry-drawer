@@ -65,12 +65,12 @@ public abstract class CoordinatePlanePanel extends JPanel implements MouseWheelL
 
   public Rectangle getClipFromCartesian(Rectangle rect) {
     Rectangle r = new Rectangle(
-      (int)((scale*rect.x) + (this.getWidth()*this.xAxisPosition)),
-      (int)((scale*-rect.y) + (this.getHeight()*this.yAxisPosition)),
-      (int)Math.ceil(scale*rect.width),
-      (int)Math.ceil(scale*rect.height)
+      (int)((this.scale*rect.x) + (this.getWidth()*this.xAxisPosition)),
+      (int)((this.scale*-rect.y) + (this.getHeight()*this.yAxisPosition)),
+      (int)Math.ceil(this.scale*rect.width),
+      (int)Math.ceil(this.scale*rect.height)
     );
-    r.grow(2, 2);
+    r.grow((int)(2*this.scale), (int)(2*this.scale));
     return r;
   }
 

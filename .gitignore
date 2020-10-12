@@ -1,7 +1,5 @@
 /.vscode
-/docs
 /bin
-*.violet.html
 .project
 .classpath
 assignment.txt
