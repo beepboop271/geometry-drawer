@@ -2,6 +2,7 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.io.Serializable;
 
 import geometrygraphics.Drawable;
@@ -16,10 +17,10 @@ import geometrygraphics.Translateable;
  * for position.
  *
  * @author Kevin Qiao
- * @version 1.4
+ * @version 1.5
  */
 public abstract class Shape implements Serializable, Drawable, Translateable {
-  private static final long serialVersionUID = 1602214395L;
+  private static final long serialVersionUID = 1602471240L;
 
   /**
    * The x coordinate of this {@code Shape}. The x coordinate
@@ -84,8 +85,8 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
    * @param dimension The dimension to check.
    */
   public static void checkDimension(int dimension) {
-    if (dimension < 0) {
-      throw new NegativeDimensionException(dimension);
+    if (dimension <= 0) {
+      throw new NonPositiveDimensionException(dimension);
     }
   }
 
@@ -118,6 +119,7 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
    * the {@code x} and {@code y} attributes of this
    * {@code Shape}.
    */
+  @Override
   public abstract void draw(Graphics g);
 
   @Override
@@ -125,6 +127,8 @@ public abstract class Shape implements Serializable, Drawable, Translateable {
     this.x += dx;
     this.y += dy;
   }
+
+  public abstract boolean contains(Point p);
 
   /**
    * Gets the x coordinate of this {@code Shape}. The x

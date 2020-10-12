@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * A class to represent a rhombus: a parallelogram with
@@ -10,10 +12,10 @@ import java.awt.Point;
  * general formula.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Rhombus extends Parallelogram {
-  private static final long serialVersionUID = 1602214923L;
+  private static final long serialVersionUID = 1602471272L;
 
   /**
    * Constructs a new {@code Rhombus} with the given
@@ -39,7 +41,7 @@ public class Rhombus extends Parallelogram {
    *                 length of all sides.
    * @param height   The height of this {@code Rhombus}.
    */
-  public Rhombus(
+  protected Rhombus(
     int x,
     int y,
     Color color,
@@ -75,5 +77,53 @@ public class Rhombus extends Parallelogram {
    */
   public int getSize() {
     return this.getBase();
+  }
+
+  public static class Builder extends OrientedPolygon.BaseBuilder {
+    private static final String ANGLE = "Angle";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(Builder.ANGLE, 1, 179))
+      );
+
+    public Builder() {
+      super("Rhombus", "Angle", Builder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Rhombus build() {
+      int x = this.getX();
+      int y = this.getY();
+      int size = this.getBase();
+
+      double angle = Math.toRadians(this.getAngle());
+      int height = (int)(size*Math.sin(angle));
+      int offset = (int)(size*Math.cos(angle));
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+size, y-height);
+      points[2] = new Point(x+size+offset, y);
+      points[3] = new Point(x+offset, y);
+
+      return new Rhombus(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        size,
+        height
+      );
+    }
+
+    public Builder withAngle(int angle) {
+      this.withArg(Builder.ANGLE, angle);
+      return this;
+    }
+
+    public int getAngle() {
+      return this.getArg(Builder.ANGLE);
+    }
   }
 }

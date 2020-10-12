@@ -1,21 +1,21 @@
 package shapes;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
 
 /**
  * A class to represent a rectangle: a parallelogram with 90
  * degree internal angles. A {@code Rectangle} can use the
- * perimeter formula {@code width*2 + height*2} and
- * {@link java.awt.Graphics#fillRect(int, int, int, int)}
- * instead of more general methods.
+ * perimeter formula {@code width*2 + height*2} instead of a
+ * more general formula. The class does not use
+ * {@link java.awt.Graphics#fillRect(int, int, int, int)} in
+ * order to support rotation provided in superclasses.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Rectangle extends Parallelogram {
-  private static final long serialVersionUID = 1602214967L;
+  private static final long serialVersionUID = 1602471288L;
 
   /**
    * Constructs a new {@code Rectangle} with the given
@@ -43,7 +43,7 @@ public class Rectangle extends Parallelogram {
    *                 base (the width).
    * @param height   The height of this {@code Rectangle}.
    */
-  public Rectangle(
+  protected Rectangle(
     int x,
     int y,
     Color color,
@@ -70,12 +70,6 @@ public class Rectangle extends Parallelogram {
     return this.getWidth()*2+this.getHeight()*2;
   }
 
-  @Override
-  public void draw(Graphics g) {
-    g.setColor(this.getColor());
-    g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-  }
-
   /**
    * Gets the width of this {@code Rectangle}. Equal to the
    * length of the base and the opposite base.
@@ -84,5 +78,35 @@ public class Rectangle extends Parallelogram {
    */
   public int getWidth() {
     return this.getBase();
+  }
+
+  public static class Builder extends OrientedPolygon.HeightBuilder {
+    public Builder() {
+      super("Rectangle", "Lengths", null);
+    }
+
+    @Override
+    public Rectangle build() {
+      int x = this.getX();
+      int y = this.getY();
+      int width = this.getBase();
+      int height = this.getHeight();
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y);
+      points[1] = new Point(x+width, y);
+      points[2] = new Point(x+width, y-height);
+      points[3] = new Point(x, y-height);
+
+      return new Rectangle(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        width,
+        height
+      );
+    }
   }
 }

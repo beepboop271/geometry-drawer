@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 import geometrygraphics.Rotateable;
 
@@ -18,10 +21,10 @@ import geometrygraphics.Rotateable;
  * not be properly calculated.
  *
  * @author Kevin Qiao
- * @version 1.5
+ * @version 1.6
  */
 public class ArbitrarySimplePolygon extends Shape implements Rotateable {
-  private static final long serialVersionUID = 1602210664L;
+  private static final long serialVersionUID = 1602472072L;
 
   /**
    * The {@code Point}s which specify a path that forms a
@@ -82,7 +85,7 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
 
     this.points = new Point[points.length];
     this.awtPolygon = new Polygon();
-    this.rotation = rotation;
+    this.rotation = 0;
 
     // find top left bounding corner
     int minX = Integer.MAX_VALUE;
@@ -105,7 +108,7 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
     this.updateCoords(minX, maxY);
     // might do nothing, so coords still need to be updated
     // above
-    this.rotateTo(this.rotation);
+    this.rotateTo(rotation);
   }
 
   /**
@@ -118,13 +121,13 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
   @Override
   protected double calculateArea() {
     double areaSum = 0;
-    
+
     for (int i = 0; i < this.points.length-1; ++i) {
-      areaSum += this.points[i].x * this.points[i+1].y;
-      areaSum -= this.points[i].y * this.points[i+1].x;
+      areaSum += this.points[i].x*this.points[i+1].y;
+      areaSum -= this.points[i].y*this.points[i+1].x;
     }
-    areaSum += this.points[this.points.length-1].x * this.points[0].y;
-    areaSum -= this.points[this.points.length-1].y * this.points[0].x;
+    areaSum += this.points[this.points.length-1].x*this.points[0].y;
+    areaSum -= this.points[this.points.length-1].y*this.points[0].x;
 
     return Math.abs(areaSum)/2.0;
   }
@@ -142,13 +145,13 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
     int dx, dy;
 
     for (int i = 0; i < this.points.length-1; ++i) {
-      dx = this.points[i+1].x - this.points[i].x;
-      dy = this.points[i+1].y - this.points[i].y;
-      perimeter += Math.sqrt(dx*dx + dy*dy);
+      dx = this.points[i+1].x-this.points[i].x;
+      dy = this.points[i+1].y-this.points[i].y;
+      perimeter += Math.sqrt(dx*dx+dy*dy);
     }
-    dx = this.points[0].x - this.points[this.points.length-1].x;
-    dy = this.points[0].y - this.points[this.points.length-1].y;
-    perimeter += Math.sqrt(dx*dx + dy*dy);
+    dx = this.points[0].x-this.points[this.points.length-1].x;
+    dy = this.points[0].y-this.points[this.points.length-1].y;
+    perimeter += Math.sqrt(dx*dx+dy*dy);
 
     return perimeter;
   }
@@ -160,6 +163,17 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
   }
 
   @Override
+  public Rectangle getBounds() {
+    Rectangle r = this.awtPolygon.getBounds();
+    return new Rectangle(this.getX(), this.getY(), r.width, r.height);
+  }
+
+  @Override
+  public boolean contains(Point p) {
+    return this.awtPolygon.contains(p);
+  }
+
+  @Override
   public void translate(int dx, int dy) {
     super.translate(dx, dy);
     this.translateSelf(dx, dy);
@@ -167,7 +181,7 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
 
   @Override
   public void rotateTo(int degrees) {
-    if ((degrees-this.rotation) % 360 == 0) {
+    if ((degrees-this.rotation)%360 == 0) {
       return;
     }
     this.rotateBy(degrees-this.rotation);
@@ -183,12 +197,10 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
 
     Polygon newPolygon = new Polygon();
     for (int i = 0; i < this.points.length; ++i) {
-      this.points[i].x = (int)Math.round(
-        this.points[i].x*cosT-this.points[i].y*sinT
-      );
-      this.points[i].y = (int)Math.round(
-        this.points[i].x*sinT+this.points[i].y*cosT
-      );
+      int x = this.points[i].x;
+      int y = this.points[i].y;
+      this.points[i].x = (int)Math.round(x*cosT-y*sinT);
+      this.points[i].y = (int)Math.round(x*sinT+y*cosT);
       newPolygon.addPoint(this.points[i].x, this.points[i].y);
 
       if (this.points[i].x < minX) {
@@ -201,6 +213,13 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
 
     this.awtPolygon = newPolygon;
     this.updateCoords(minX, maxY);
+    this.rotation += degreeChange;
+    this.rotation %= 360;
+  }
+
+  @Override
+  public int getRotation() {
+    return this.rotation;
   }
 
   private void translateSelf(int dx, int dy) {
@@ -209,11 +228,40 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
     }
     this.awtPolygon.translate(dx, dy);
   }
-  
+
   private void updateCoords(int minX, int maxY) {
     if ((minX == this.getX()) && (maxY == this.getY())) {
       return;
     }
     this.translateSelf(this.getX()-minX, this.getY()-maxY);
+  }
+
+  public abstract static class RotationBuilder extends ShapeBuilder {
+    private static final String ROTATION = "Rotation";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(RotationBuilder.ROTATION, 0, 359))
+      );
+
+    public RotationBuilder(
+      String targetShape,
+      String variation,
+      LinkedHashSet<Arg> args
+    ) {
+      super(
+        targetShape,
+        variation,
+        ShapeBuilder.mergeArgs(REQUIRED_ARGS, args)
+      );
+    }
+
+    public RotationBuilder withRotation(int rotation) {
+      this.withArg(RotationBuilder.ROTATION, rotation);
+      return this;
+    }
+
+    public int getRotation() {
+      return this.getArg(RotationBuilder.ROTATION);
+    }
   }
 }

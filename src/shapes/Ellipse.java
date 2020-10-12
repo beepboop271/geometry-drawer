@@ -2,16 +2,20 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * A class to represent any ellipse. Stores the width and
  * height (the length of the horizontal and vertical axes).
  *
  * @author Kevin Qiao
- * @version 1.2
+ * @version 1.3
  */
 public class Ellipse extends Shape {
-  private static final long serialVersionUID = 1601937248L;
+  private static final long serialVersionUID = 1602471616L;
 
   /** The width of this {@code Ellipse}. */
   private final int width;
@@ -29,7 +33,7 @@ public class Ellipse extends Shape {
    * @param width  The width of this {@code Ellipse}.
    * @param height The height of this {@code Ellipse}.
    */
-  public Ellipse(int x, int y, Color color, int width, int height) {
+  protected Ellipse(int x, int y, Color color, int width, int height) {
     super(x, y, color);
     Shape.checkDimension(width);
     Shape.checkDimension(height);
@@ -57,9 +61,9 @@ public class Ellipse extends Shape {
    * https://en.wikipedia.org/wiki/Ellipse#Circumference.
    * <p>
    * Though {@code a} and {@code b} are supposed to be the
-   * semi-major and semi-minor axes (with a >= b), it does not
-   * matter in this formula whether a >= b or not, so there is
-   * no need to check.
+   * semi-major and semi-minor axes (with {@code a >= b}), it
+   * does not matter in this formula whether {@code a >= b} or
+   * not, so there is no need to check.
    */
   @Override
   protected double calculatePerimeter() {
@@ -72,7 +76,21 @@ public class Ellipse extends Shape {
   @Override
   public void draw(Graphics g) {
     g.setColor(this.getColor());
+    g.translate(0, -this.height);
     g.fillOval(this.getX(), this.getY(), this.width, this.height);
+    g.translate(0, this.height);
+  }
+
+  @Override
+  public Rectangle getBounds() {
+    return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+  }
+
+  @Override
+  public boolean contains(Point p) {
+    int dx = p.x - this.getX();
+    int dy = this.getY() - p.y;
+    return (dx >= 0) && (dx < this.width) && (dy >= 0) && (dy < this.height);
   }
 
   /**
@@ -91,5 +109,50 @@ public class Ellipse extends Shape {
    */
   public int getHeight() {
     return this.height;
+  }
+
+  public static class Builder extends ShapeBuilder {
+    private static final String WIDTH = "Width";
+    private static final String HEIGHT = "Height";    
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(
+          new Arg(Builder.WIDTH, 0),
+          new Arg(Builder.HEIGHT, 0)
+        )
+      );
+
+    public Builder() {
+      super("Ellipse", "Lengths", Builder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Ellipse build() {
+      return new Ellipse(
+        this.getX(),
+        this.getY(),
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        this.getArg(Builder.WIDTH),
+        this.getArg(Builder.HEIGHT)
+      );
+    }
+
+    public Builder withWidth(int width) {
+      this.withArg(Builder.WIDTH, width);
+      return this;
+    }
+
+    public Builder withHeight(int height) {
+      this.withArg(Builder.HEIGHT, height);
+      return this;
+    }
+
+    public int getWidth() {
+      return this.getArg(Builder.WIDTH);
+    }
+
+    public int getHeight() {
+      return this.getArg(Builder.HEIGHT);
+    }
   }
 }

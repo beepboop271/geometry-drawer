@@ -1,5 +1,6 @@
 /.vscode
-*.class
+/docs
+/bin
 *.violet.html
 .project
 .classpath

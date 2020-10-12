@@ -10,10 +10,10 @@ import java.awt.Point;
  * {@code size*size} instead of more general formulas.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Square extends Rectangle {
-  private static final long serialVersionUID = 1602214295L;
+  private static final long serialVersionUID = 1602471206L;
 
   /**
    * Constructs a new {@code Square} with the given
@@ -38,7 +38,7 @@ public class Square extends Rectangle {
    * @param size     The size of this {@code Square}, the
    *                 length of all sides.
    */
-  public Square(
+  protected Square(
     int x,
     int y,
     Color color,
@@ -88,5 +88,33 @@ public class Square extends Rectangle {
    */
   public int getSize() {
     return this.getBase();
+  }
+
+  public static class Builder extends OrientedPolygon.BaseBuilder {
+    public Builder() {
+      super("Square", "Lengths", null);
+    }
+
+    @Override
+    public Square build() {
+      int x = this.getX();
+      int y = this.getY();
+      int size = this.getBase();
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y);
+      points[1] = new Point(x+size, y);
+      points[2] = new Point(x+size, y-size);
+      points[3] = new Point(x, y-size);
+
+      return new Square(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        size
+      );
+    }
   }
 }

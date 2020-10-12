@@ -25,4 +25,12 @@ public interface Rotateable {
    *                     should be rotated by.
    */
   public void rotateBy(int degreeChange);
+
+  /**
+   * Gets this object's rotation, in degrees.
+   *
+   * @return int, the rotation, in degrees, this object is
+   *         rotated by.
+   */
+  public int getRotation();
 }

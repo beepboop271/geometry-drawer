@@ -1,6 +1,7 @@
 package geometrygraphics;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * An interface which represents the ability for an object
@@ -17,4 +18,13 @@ public interface Drawable {
    * @param g The {@code Graphics} object to draw to.
    */
   public void draw(Graphics g);
+
+  /**
+   * Gets the clip rect (bounding box) required to update this
+   * object when dirty.
+   *
+   * @return Rectangle, the clip rect/bounding box of this
+   *         object.
+   */
+  public Rectangle getBounds();
 }

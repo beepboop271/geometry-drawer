@@ -1,16 +1,18 @@
 package shapes;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * A class to represent any circle, a special case of an
  * ellipse with equal width and height.
  *
  * @author Kevin Qiao
- * @version 1.2
+ * @version 1.3
  */
 public class Circle extends Ellipse {
-  private static final long serialVersionUID = 1601937401L;
+  private static final long serialVersionUID = 1602471671L;
 
   /**
    * Constructs a new {@code Circle} with the given
@@ -22,7 +24,7 @@ public class Circle extends Ellipse {
    *                 {@code Circle} with.
    * @param diameter The diameter of this {@code Circle}.
    */
-  public Circle(int x, int y, Color color, int diameter) {
+  protected Circle(int x, int y, Color color, int diameter) {
     super(x, y, color, diameter, diameter);
   }
 
@@ -65,5 +67,36 @@ public class Circle extends Ellipse {
    */
   public int getDiameter() {
     return this.getWidth();
+  }
+
+  public static class Builder extends ShapeBuilder {
+    private static final String DIAMETER = "Diameter";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(Builder.DIAMETER, 0))
+      );
+    
+    public Builder() {
+      super("Circle", "Lengths", Builder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Circle build() {
+      return new Circle(
+        this.getX(),
+        this.getY(),
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        this.getArg(Builder.DIAMETER)
+      );
+    }
+
+    public Builder withDiameter(int diameter) {
+      this.withArg(Builder.DIAMETER, diameter);
+      return this;
+    }
+
+    public int getDiameter() {
+      return this.getArg(Builder.DIAMETER);
+    }
   }
 }

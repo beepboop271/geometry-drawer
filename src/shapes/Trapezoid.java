@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * A class to represent a trapezoid: a quadrilateral with at
@@ -12,10 +14,10 @@ import java.awt.Point;
  * {@code ArbitrarySimplePolygon}.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Trapezoid extends OrientedPolygon {
-  private static final long serialVersionUID = 1602214307L;
+  private static final long serialVersionUID = 1602471183L;
 
   /**
    * The length of the opposite edge parallel to this
@@ -58,7 +60,7 @@ public class Trapezoid extends OrientedPolygon {
    *                     parallel to this {@code Trapezoid}'s
    *                     base.
    */
-  public Trapezoid(
+  protected Trapezoid(
     int x,
     int y,
     Color color,
@@ -102,5 +104,108 @@ public class Trapezoid extends OrientedPolygon {
    */
   public int getOppositeBase() {
     return this.oppositeBase;
+  }
+
+  public static class OffsetBuilder extends OrientedPolygon.OffsetBuilder {
+    private static final String OPPOSITE_BASE = "Top Edge Length";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(OffsetBuilder.OPPOSITE_BASE, 0))
+      );
+
+    public OffsetBuilder() {
+      super("Trapezoid", "Offset", OffsetBuilder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Trapezoid build() {
+      int x = this.getX();
+      int y = this.getY();
+      int base = this.getBase();
+      int height = this.getHeight();
+      int offset = this.getOffset();
+      int oppositeBase = this.getOppositeBase();
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+base, y-height);
+      points[2] = new Point(x+oppositeBase+offset, y);
+      points[3] = new Point(x+offset, y);
+
+      return new Trapezoid(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        base,
+        height,
+        oppositeBase
+      );
+    }
+
+    public OffsetBuilder withOppositeBase(int oppositeBase) {
+      this.withArg(OffsetBuilder.OPPOSITE_BASE, oppositeBase);
+      return this;
+    }
+
+    public int getOppositeBase() {
+      return this.getArg(OffsetBuilder.OPPOSITE_BASE);
+    }
+  }
+
+  public static class AngleBuilder extends OrientedPolygon.AngleBuilder {
+    private static final String OPPOSITE_BASE = "Top Edge";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(AngleBuilder.OPPOSITE_BASE, 0))
+      );
+
+    public AngleBuilder() {
+      super("Trapezoid", "Angle", AngleBuilder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Trapezoid build() {
+      int x = this.getX();
+      int y = this.getY();
+      int base = this.getBase();
+      int height = this.getHeight();
+      int oppositeBase = this.getOppositeBase();
+
+      int offset;
+      if (this.getAngle() == 90) {
+        offset = 0;
+      } else {
+        double angle = Math.toRadians(this.getAngle());
+        offset = (int)(height/Math.tan(angle));
+      }
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+base, y-height);
+      points[2] = new Point(x+oppositeBase+offset, y);
+      points[3] = new Point(x+offset, y);
+
+      return new Trapezoid(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        base,
+        height,
+        oppositeBase
+      );
+    }
+
+    public AngleBuilder withOppositeBase(int oppositeBase) {
+      this.withArg(AngleBuilder.OPPOSITE_BASE, oppositeBase);
+      return this;
+    }
+
+    public int getOppositeBase() {
+      return this.getArg(AngleBuilder.OPPOSITE_BASE);
+    }
   }
 }

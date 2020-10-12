@@ -11,10 +11,10 @@ import java.awt.Point;
  * {@code Trapezoid}.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public class Parallelogram extends Trapezoid {
-  private static final long serialVersionUID = 1602215030L;
+  private static final long serialVersionUID = 1602471308L;
 
   /**
    * Constructs a new {@code Parallelogram} with the given
@@ -42,7 +42,7 @@ public class Parallelogram extends Trapezoid {
    *                 {@code Parallelogram}'s base.
    * @param height   The height of this {@code Parallelogram}.
    */
-  public Parallelogram(
+  protected Parallelogram(
     int x,
     int y,
     Color color,
@@ -67,5 +67,74 @@ public class Parallelogram extends Trapezoid {
   @Override
   protected double calculateArea() {
     return this.getBase()*this.getHeight();
+  }
+
+  public static class OffsetBuilder extends OrientedPolygon.OffsetBuilder {
+    public OffsetBuilder() {
+      super("Parallelogram", "Offset", null);
+    }
+
+    @Override
+    public Parallelogram build() {
+      int x = this.getX();
+      int y = this.getY();
+      int base = this.getBase();
+      int height = this.getHeight();
+      int offset = this.getOffset();
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+base, y-height);
+      points[2] = new Point(x+base+offset, y);
+      points[3] = new Point(x+offset, y);
+
+      return new Parallelogram(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        base,
+        height
+      );
+    }
+  }
+
+  public static class AngleBuilder extends OrientedPolygon.AngleBuilder {
+    public AngleBuilder() {
+      super("Parallelogram", "Angle", null);
+    }
+
+    @Override
+    public Parallelogram build() {
+      int x = this.getX();
+      int y = this.getY();
+      int base = this.getBase();
+      int height = this.getHeight();
+
+      int offset;
+      if (this.getAngle() == 90) {
+        offset = 0;
+      } else {
+        double angle = Math.toRadians(this.getAngle());
+        offset = (int)(height/Math.tan(angle));
+      }
+
+      Point[] points = new Point[4];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+base, y-height);
+      points[2] = new Point(x+base+offset, y);
+      points[3] = new Point(x+offset, y);
+
+      return new Parallelogram(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        base,
+        height
+      );
+    }
   }
 }

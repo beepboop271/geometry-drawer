@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * An abstract class to represent any polygon with a base
@@ -18,10 +20,10 @@ import java.awt.Point;
  * valid.
  *
  * @author Kevin Qiao
- * @version 1.1
+ * @version 1.2
  */
 public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
-  private static final long serialVersionUID = 1602215075L;
+  private static final long serialVersionUID = 1602471327L;
 
   /**
    * The length of this {@code OrientedPolygon}'s base. The
@@ -72,7 +74,7 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
    * @param height   The height of this
    *                 {@code OrientedPolygon}.
    */
-  public OrientedPolygon(
+  protected OrientedPolygon(
     int x,
     int y,
     Color color,
@@ -119,5 +121,132 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
    */
   public int getHeight() {
     return this.height;
+  }
+
+  // the following 4 classes are identical EXCEPT:
+  // - BaseBuilder   requires Arg("Base", 0)
+  // - HeightBuilder requires Arg("Height", 0)
+  // - OffsetBuilder requires Arg("Base Offset")
+  // - AngleBuilder  requires Arg("Angle", 1, 179)
+  // and the inheritance structure is:
+  // - BaseBuilder
+  //    - HeightBuilder
+  //       - OffsetBuilder
+  //       - AngleBuilder
+
+  public abstract static class BaseBuilder extends ArbitrarySimplePolygon.RotationBuilder {
+    private static final String BASE = "Base Length";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(BaseBuilder.BASE, 0))
+      );
+
+    public BaseBuilder(
+      String targetShape,
+      String variation,
+      LinkedHashSet<Arg> args
+    ) {
+      super(
+        targetShape,
+        variation,
+        ShapeBuilder.mergeArgs(BaseBuilder.REQUIRED_ARGS, args)
+      );
+    }
+
+    public BaseBuilder withBase(int base) {
+      this.withArg(BaseBuilder.BASE, base);
+      return this;
+    }
+
+    public int getBase() {
+      return this.getArg(BaseBuilder.BASE);
+    }
+  }
+
+  public abstract static class HeightBuilder extends BaseBuilder {
+    private static final String HEIGHT = "Height";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(HeightBuilder.HEIGHT, 0))
+      );
+
+    public HeightBuilder(
+      String targetShape,
+      String variation,
+      LinkedHashSet<Arg> args
+    ) {
+      super(
+        targetShape,
+        variation,
+        ShapeBuilder.mergeArgs(HeightBuilder.REQUIRED_ARGS, args)
+      );
+    }
+
+    public HeightBuilder withHeight(int height) {
+      this.withArg(HeightBuilder.HEIGHT, height);
+      return this;
+    }
+
+    public int getHeight() {
+      return this.getArg(HeightBuilder.HEIGHT);
+    }
+  }
+
+  public abstract static class OffsetBuilder extends HeightBuilder {
+    private static final String OFFSET = "Base Offset";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(OffsetBuilder.OFFSET))
+      );
+
+    public OffsetBuilder(
+      String targetShape,
+      String variation,
+      LinkedHashSet<Arg> args
+    ) {
+      super(
+        targetShape,
+        variation,
+        ShapeBuilder.mergeArgs(OffsetBuilder.REQUIRED_ARGS, args)
+      );
+    }
+
+    public OffsetBuilder withOffset(int offset) {
+      this.withArg(OffsetBuilder.OFFSET, offset);
+      return this;
+    }
+
+    public int getOffset() {
+      return this.getArg(OffsetBuilder.OFFSET);
+    }
+  }
+
+  public abstract static class AngleBuilder extends HeightBuilder {
+    private static final String ANGLE = "Angle";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(new Arg(AngleBuilder.ANGLE, 1, 179))
+      );
+
+    public AngleBuilder(
+      String targetShape,
+      String variation,
+      LinkedHashSet<Arg> args
+    ) {
+      super(
+        targetShape,
+        variation,
+        ShapeBuilder.mergeArgs(AngleBuilder.REQUIRED_ARGS, args)
+      );
+    }
+
+    public AngleBuilder withAngle(int angle) {
+      this.withArg(AngleBuilder.ANGLE, angle);
+      return this;
+    }
+
+    public int getAngle() {
+      return this.getArg(AngleBuilder.ANGLE);
+    }
   }
 }

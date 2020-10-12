@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * A class to represent a polygon with 3 sides. A
@@ -11,10 +13,10 @@ import java.awt.Point;
  * {@code ArbitrarySimplePolygon}.
  *
  * @author Kevin Qiao
- * @version 1.2
+ * @version 1.3
  */
 public class Triangle extends OrientedPolygon {
-  private static final long serialVersionUID = 1602214330L;
+  private static final long serialVersionUID = 1602471157L;
 
   /**
    * Constructs a new {@code Triangle} with the given
@@ -42,7 +44,7 @@ public class Triangle extends OrientedPolygon {
    *                 base.
    * @param height   The height of this {@code Triangle}.
    */
-  public Triangle(
+  protected Triangle(
     int x,
     int y,
     Color color,
@@ -67,5 +69,66 @@ public class Triangle extends OrientedPolygon {
   @Override
   protected double calculateArea() {
     return this.getBase()*this.getHeight()/2.0;
+  }
+
+  public static class SasBuilder extends OrientedPolygon.BaseBuilder {
+    private static final String ANGLE = "Angle";
+    private static final String SIDE_2 = "Side 2 Length";
+    private static final LinkedHashSet<Arg> REQUIRED_ARGS =
+      new LinkedHashSet<>(
+        Arrays.asList(
+          new Arg(SasBuilder.ANGLE, 1, 178),
+          new Arg(SasBuilder.SIDE_2, 0)
+        )
+      );
+
+    public SasBuilder() {
+      super("Triangle", "SAS", SasBuilder.REQUIRED_ARGS);
+    }
+
+    @Override
+    public Triangle build() {
+      int x = this.getX();
+      int y = this.getY();
+      int base = this.getBase();
+      double angle = Math.toRadians(this.getAngle());
+      int side2 = this.getSide2();
+
+      int height = (int)(side2*Math.sin(angle));
+      int offset = (int)(side2*Math.cos(angle));
+
+      Point[] points = new Point[3];
+      points[0] = new Point(x, y-height);
+      points[1] = new Point(x+base, y-height);
+      points[2] = new Point(x+offset, y);
+
+      return new Triangle(
+        x,
+        y,
+        new Color(this.getRed(), this.getGreen(), this.getBlue()),
+        points,
+        this.getRotation(),
+        base,
+        height
+      );
+    }
+
+    public SasBuilder withAngle(int angle) {
+      this.withArg(SasBuilder.ANGLE, angle);
+      return this;
+    }
+
+    public int getAngle() {
+      return this.getArg(SasBuilder.ANGLE);
+    }
+
+    public SasBuilder withSide2(int length) {
+      this.withArg(SasBuilder.SIDE_2, length);
+      return this;
+    }
+
+    public int getSide2() {
+      return this.getArg(SasBuilder.SIDE_2);
+    }
   }
 }
