@@ -25,8 +25,6 @@ public class LabelledTextSliderPanel extends JPanel implements
   FocusListener,
   AncestorListener {
 
-  private static final long serialVersionUID = 1602093133L;
-
   private ChangeListener listener;
 
   private JSlider slider;

@@ -9,8 +9,6 @@ package shapes;
  * @version 1.1
  */
 public class NonPositiveDimensionException extends InvalidShapeException {
-  private static final long serialVersionUID = 1601834455L;
-
   /**
    * The non-positive dimension which caused this exception.
    */
