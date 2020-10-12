@@ -71,9 +71,24 @@ public class Triangle extends OrientedPolygon {
     return this.getBase()*this.getHeight()/2.0;
   }
 
+  /**
+   * A builder class for a {@code Triangle}, using
+   * Side-Angle-Side. Adds an argument for bottom-left (with
+   * rotation of 0) angle and second side length in addition
+   * to base length.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class SasBuilder extends OrientedPolygon.BaseBuilder {
+    /** The {@code String} to represent the argument of angle. */
     private static final String ANGLE = "Angle";
+    /** The {@code String} to represent the argument of second side length. */
     private static final String SIDE_2 = "Side 2 Length";
+    /**
+     * The set of arguments this {@code SasBuilder} requires in
+     * addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(
@@ -82,6 +97,11 @@ public class Triangle extends OrientedPolygon {
         )
       );
 
+    /**
+     * Creates a {@code Triangle} builder which uses base
+     * length, angle, and second side length to construct a
+     * {@code Triangle}.
+     */
     public SasBuilder() {
       super("Triangle", "SAS", SasBuilder.REQUIRED_ARGS);
     }
@@ -113,20 +133,48 @@ public class Triangle extends OrientedPolygon {
       );
     }
 
+    /**
+     * Sets the angle argument of this {@code SasBuilder}.
+     *
+     * @param angle The angle argument of this
+     *              {@code SasBuilder}.
+     * @return {@code SasBuilder}, this {@code SasBuilder}.
+     */
     public SasBuilder withAngle(int angle) {
       this.withArg(SasBuilder.ANGLE, angle);
       return this;
     }
 
-    public int getAngle() {
-      return this.getArg(SasBuilder.ANGLE);
-    }
-
+    /**
+     * Sets the second side length argument of this
+     * {@code SasBuilder}.
+     *
+     * @param length The second side length argument of this
+     *               {@code SasBuilder}.
+     * @return {@code SasBuilder}, this {@code SasBuilder}.
+     */
     public SasBuilder withSide2(int length) {
       this.withArg(SasBuilder.SIDE_2, length);
       return this;
     }
 
+    /**
+     * Gets the angle argument of this {@code SasBuilder}.
+     *
+     * @return int, the angle argument of this
+     *         {@code SasBuilder}.
+     */
+    public int getAngle() {
+      return this.getArg(SasBuilder.ANGLE);
+    }
+
+    /**
+     * Gets the second side length argument of this
+     * {@code SasBuilder}.
+     *
+     * @return int, the second side length argument of this
+     *         {@code SasBuilder}.
+     */
     public int getSide2() {
       return this.getArg(SasBuilder.SIDE_2);
     }

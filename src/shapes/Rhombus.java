@@ -79,13 +79,30 @@ public class Rhombus extends Parallelogram {
     return this.getBase();
   }
 
+  /**
+   * A builder class for a {@code Rhombus}. Adds an argument
+   * for bottom-left (with rotation of 0) angle in addition to
+   * base length.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class Builder extends OrientedPolygon.BaseBuilder {
+    /** The {@code String} to represent the argument of angle. */
     private static final String ANGLE = "Angle";
+    /**
+     * The set of arguments this {@code Builder} requires in
+     * addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(Builder.ANGLE, 1, 179))
       );
 
+    /**
+     * Creates a {@code Rhombus} builder which uses base length
+     * and angle to construct a {@code Rhombus}.
+     */
     public Builder() {
       super("Rhombus", "Angle", Builder.REQUIRED_ARGS);
     }
@@ -117,11 +134,22 @@ public class Rhombus extends Parallelogram {
       );
     }
 
+    /**
+     * Sets the angle argument of this {@code Builder}.
+     *
+     * @param angle The angle argument of this {@code Builder}.
+     * @return {@code Builder}, this {@code Builder}.
+     */
     public Builder withAngle(int angle) {
       this.withArg(Builder.ANGLE, angle);
       return this;
     }
 
+    /**
+     * Gets the angle argument of this {@code Builder}.
+     *
+     * @return int, the angle argument of this {@code Builder}.
+     */
     public int getAngle() {
       return this.getArg(Builder.ANGLE);
     }

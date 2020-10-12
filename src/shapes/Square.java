@@ -90,7 +90,18 @@ public class Square extends Rectangle {
     return this.getBase();
   }
 
+  /**
+   * A builder class for a {@code Square}. No arguments are
+   * added.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class Builder extends OrientedPolygon.BaseBuilder {
+    /**
+     * Creates a {@code Square} builder which uses the length of
+     * the base to construct a {@code Square}.
+     */
     public Builder() {
       super("Square", "Lengths", null);
     }

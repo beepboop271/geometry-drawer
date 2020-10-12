@@ -157,6 +157,11 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
   }
 
   @Override
+  public boolean contains(Point p) {
+    return this.awtPolygon.contains(p);
+  }
+
+  @Override
   public void draw(Graphics g) {
     g.setColor(this.getColor());
     g.fillPolygon(this.awtPolygon);
@@ -166,17 +171,6 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
   public Rectangle getBounds() {
     Rectangle r = this.awtPolygon.getBounds();
     return new Rectangle(this.getX(), this.getY(), r.width, r.height);
-  }
-
-  @Override
-  public boolean contains(Point p) {
-    return this.awtPolygon.contains(p);
-  }
-
-  @Override
-  public void translate(int dx, int dy) {
-    super.translate(dx, dy);
-    this.translateSelf(dx, dy);
   }
 
   @Override
@@ -218,10 +212,20 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
   }
 
   @Override
-  public int getRotation() {
-    return this.rotation;
+  public void translate(int dx, int dy) {
+    super.translate(dx, dy);
+    this.translateSelf(dx, dy);
   }
 
+  /**
+   * Translates the internal point representations of this
+   * {@code ArbitrarySimplePolygon}.
+   *
+   * @param dx The change in x coordinates to apply to this
+   *           shape.
+   * @param dy The change in y coordinates to apply to this
+   *           shape.
+   */
   private void translateSelf(int dx, int dy) {
     for (int i = 0; i < this.points.length; ++i) {
       this.points[i].translate(dx, dy);
@@ -229,6 +233,15 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
     this.awtPolygon.translate(dx, dy);
   }
 
+  /**
+   * Translates the internal point representation to be
+   * consistent with the coordinates of this
+   * {@code ArbitrarySimplePolygon}, given the coordinates of
+   * the top-left bounding corner.
+   *
+   * @param minX The x coordinate of the leftmost point.
+   * @param maxY The y coordinate of the topmost point.
+   */
   private void updateCoords(int minX, int maxY) {
     if ((minX == this.getX()) && (maxY == this.getY())) {
       return;
@@ -236,13 +249,50 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
     this.translateSelf(this.getX()-minX, this.getY()-maxY);
   }
 
+  /**
+   * Gets this object's rotation, in degrees.
+   *
+   * @return int, the rotation, in degrees, this object is
+   *         rotated by.
+   */
+  public int getRotation() {
+    return this.rotation;
+  }
+
+  /**
+   * An abstract class which adds a rotation argument to
+   * {@code ShapeBuilder}.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public abstract static class RotationBuilder extends ShapeBuilder {
+    /** The {@code String} to represent the argument of rotation. */
     private static final String ROTATION = "Rotation";
+    /**
+     * The set of arguments this {@code RotationBuilder}
+     * requires in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(RotationBuilder.ROTATION, 0, 359))
       );
 
+    /**
+     * Constructs a {@code RotationBuilder} with the given
+     * target {@code Shape} name, variation name, and with the
+     * given required arguments in addition to the ones
+     * specified in this class and superclasses.
+     *
+     * @param targetShape The name of the {@code Shape} to be
+     *                    built.
+     * @param variation   The name of the build variation to be
+     *                    used. See {@link #getVariation()}.
+     * @param args        The required args specified by
+     *                    subclasses to use when building the
+     *                    product, in addition to the arguments
+     *                    from this class.
+     */
     public RotationBuilder(
       String targetShape,
       String variation,
@@ -255,11 +305,27 @@ public class ArbitrarySimplePolygon extends Shape implements Rotateable {
       );
     }
 
+    /**
+     * Sets the rotation argument of this
+     * {@code RotationBuilder}.
+     *
+     * @param rotation The rotation argument of this
+     *                 {@code RotationBuilder}.
+     * @return {@code RotationBuilder}, this
+     *         {@code RotationBuilder}.
+     */
     public RotationBuilder withRotation(int rotation) {
       this.withArg(RotationBuilder.ROTATION, rotation);
       return this;
     }
 
+    /**
+     * Gets the rotation argument of this
+     * {@code RotationBuilder}.
+     *
+     * @return int, the rotation argument of this
+     *         {@code RotationBuilder}.
+     */
     public int getRotation() {
       return this.getArg(RotationBuilder.ROTATION);
     }

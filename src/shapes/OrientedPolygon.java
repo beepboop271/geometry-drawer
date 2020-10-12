@@ -123,7 +123,7 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
     return this.height;
   }
 
-  // the following 4 classes are identical EXCEPT:
+  // the following 4 classes are identical except:
   // - BaseBuilder   requires Arg("Base", 0)
   // - HeightBuilder requires Arg("Height", 0)
   // - OffsetBuilder requires Arg("Base Offset")
@@ -134,13 +134,40 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
   //       - OffsetBuilder
   //       - AngleBuilder
 
+  /**
+   * An abstract class which adds a base length argument to
+   * {@code RotationBuilder}.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public abstract static class BaseBuilder extends ArbitrarySimplePolygon.RotationBuilder {
+    /** The {@code String} to represent the argument of angle. */
     private static final String BASE = "Base Length";
+    /**
+     * The set of arguments this {@code BaseBuilder} requires in
+     * addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(BaseBuilder.BASE, 0))
       );
 
+    /**
+     * Constructs a {@code BaseBuilder} with the given target
+     * {@code Shape} name, variation name, and with the given
+     * required arguments in addition to the ones specified in
+     * this class and superclasses.
+     *
+     * @param targetShape The name of the {@code Shape} to be
+     *                    built.
+     * @param variation   The name of the build variation to be
+     *                    used. See {@link #getVariation()}.
+     * @param args        The required args specified by
+     *                    subclasses to use when building the
+     *                    product, in addition to the arguments
+     *                    from this class.
+     */
     public BaseBuilder(
       String targetShape,
       String variation,
@@ -153,23 +180,65 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
       );
     }
 
+    /**
+     * Sets the base length argument of this
+     * {@code BaseBuilder}.
+     *
+     * @param base The base length of this {@code BaseBuilder}.
+     * @return {@code BaseBuilder}, this
+     *         {@code BaseBuilder}.
+     */
     public BaseBuilder withBase(int base) {
       this.withArg(BaseBuilder.BASE, base);
       return this;
     }
 
+    /**
+     * Gets the base length argument of this
+     * {@code BaseBuilder}.
+     *
+     * @return int, the base length argument of this
+     *         {@code BaseBuilder}.
+     */
     public int getBase() {
       return this.getArg(BaseBuilder.BASE);
     }
   }
 
+  /**
+   * An abstract class which adds a height argument to
+   * {@code BaseBuilder}.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public abstract static class HeightBuilder extends BaseBuilder {
+    /** The {@code String} to represent the argument of height. */
     private static final String HEIGHT = "Height";
+    /**
+     * The set of arguments this {@code HeightBuilder} requires
+     * in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(HeightBuilder.HEIGHT, 0))
       );
 
+    /**
+     * Constructs a {@code HeightBuilder} with the given target
+     * {@code Shape} name, variation name, and with the given
+     * required arguments in addition to the ones specified in
+     * this class and superclasses.
+     *
+     * @param targetShape The name of the {@code Shape} to be
+     *                    built.
+     * @param variation   The name of the build variation to be
+     *                    used. See {@link #getVariation()}.
+     * @param args        The required args specified by
+     *                    subclasses to use when building the
+     *                    product, in addition to the arguments
+     *                    from this class.
+     */
     public HeightBuilder(
       String targetShape,
       String variation,
@@ -182,23 +251,65 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
       );
     }
 
+    /**
+     * Sets the height argument of this {@code HeightBuilder}.
+     *
+     * @param height The height of this {@code HeightBuilder}.
+     * @return {@code HeightBuilder}, this
+     *         {@code HeightBuilder}.
+     */
     public HeightBuilder withHeight(int height) {
       this.withArg(HeightBuilder.HEIGHT, height);
       return this;
     }
 
+    /**
+     * Gets the height argument of this {@code HeightBuilder}.
+     *
+     * @return int, the height argument of this
+     *         {@code HeightBuilder}.
+     */
     public int getHeight() {
       return this.getArg(HeightBuilder.HEIGHT);
     }
   }
 
+  /**
+   * An abstract class which adds a top edge offset from the
+   * base argument to {@code HeightBuilder}. The offset is the
+   * horizontal displacement between the top edge and the base
+   * of a {@code Shape} (with rotation of 0).
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public abstract static class OffsetBuilder extends HeightBuilder {
+    /** The {@code String} to represent the argument of base offset. */
     private static final String OFFSET = "Base Offset";
+    /**
+     * The set of arguments this {@code OffsetBuilder} requires
+     * in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(OffsetBuilder.OFFSET))
       );
 
+    /**
+     * Constructs an {@code OffsetBuilder} with the given target
+     * {@code Shape} name, variation name, and with the given
+     * required arguments in addition to the ones specified in
+     * this class and superclasses.
+     *
+     * @param targetShape The name of the {@code Shape} to be
+     *                    built.
+     * @param variation   The name of the build variation to be
+     *                    used. See {@link #getVariation()}.
+     * @param args        The required args specified by
+     *                    subclasses to use when building the
+     *                    product, in addition to the arguments
+     *                    from this class.
+     */
     public OffsetBuilder(
       String targetShape,
       String variation,
@@ -211,23 +322,63 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
       );
     }
 
+    /**
+     * Sets the offset argument of this {@code OffsetBuilder}.
+     *
+     * @param offset The offset of this {@code OffsetBuilder}.
+     * @return {@code OffsetBuilder}, this
+     *         {@code OffsetBuilder}.
+     */
     public OffsetBuilder withOffset(int offset) {
       this.withArg(OffsetBuilder.OFFSET, offset);
       return this;
     }
 
+    /**
+     * Gets the offset argument of this {@code OffsetBuilder}.
+     *
+     * @return int, the offset argument of this
+     *         {@code OffsetBuilder}.
+     */
     public int getOffset() {
       return this.getArg(OffsetBuilder.OFFSET);
     }
   }
 
+  /**
+   * An abstract class which adds a bottom left (with rotation
+   * of 0) angle argument to {@code HeightBuilder}.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public abstract static class AngleBuilder extends HeightBuilder {
+    /** The {@code String} to represent the argument of angle. */
     private static final String ANGLE = "Angle";
+    /**
+     * The set of arguments this {@code AngleBuilder} requires
+     * in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(AngleBuilder.ANGLE, 1, 179))
       );
 
+    /**
+     * Constructs an {@code AngleBuilder} with the given target
+     * {@code Shape} name, variation name, and with the given
+     * required arguments in addition to the ones specified in
+     * this class and superclasses.
+     *
+     * @param targetShape The name of the {@code Shape} to be
+     *                    built.
+     * @param variation   The name of the build variation to be
+     *                    used. See {@link #getVariation()}.
+     * @param args        The required args specified by
+     *                    subclasses to use when building the
+     *                    product, in addition to the arguments
+     *                    from this class.
+     */
     public AngleBuilder(
       String targetShape,
       String variation,
@@ -240,11 +391,23 @@ public abstract class OrientedPolygon extends ArbitrarySimplePolygon {
       );
     }
 
+    /**
+     * Sets the angle argument of this {@code AngleBuilder}.
+     *
+     * @param angle The angle of this {@code AngleBuilder}.
+     * @return {@code AngleBuilder}, this {@code AngleBuilder}.
+     */
     public AngleBuilder withAngle(int angle) {
       this.withArg(AngleBuilder.ANGLE, angle);
       return this;
     }
 
+    /**
+     * Gets the angle argument of this {@code AngleBuilder}.
+     *
+     * @return int, the angle argument of this
+     *         {@code AngleBuilder}.
+     */
     public int getAngle() {
       return this.getArg(AngleBuilder.ANGLE);
     }

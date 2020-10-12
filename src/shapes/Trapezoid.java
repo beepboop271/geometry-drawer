@@ -106,13 +106,31 @@ public class Trapezoid extends OrientedPolygon {
     return this.oppositeBase;
   }
 
+  /**
+   * A builder class for a {@code Trapezoid} using an
+   * offset. Adds an argument for top edge length.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class OffsetBuilder extends OrientedPolygon.OffsetBuilder {
+    /** The {@code String} to represent the argument of top edge length. */
     private static final String OPPOSITE_BASE = "Top Edge Length";
+    /**
+     * The set of arguments this {@code OffsetBuilder} requires
+     * in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(OffsetBuilder.OPPOSITE_BASE, 0))
       );
 
+    /**
+     * Creates a {@code Trapezoid} builder which uses the length
+     * of the base, height, horizontal offset between top and
+     * bottom edges, and length of the top edge to construct a
+     * {@code Trapezoid}.
+     */
     public OffsetBuilder() {
       super("Trapezoid", "Offset", OffsetBuilder.REQUIRED_ARGS);
     }
@@ -144,23 +162,57 @@ public class Trapezoid extends OrientedPolygon {
       );
     }
 
+    /**
+     * Sets the top edge length argument of this
+     * {@code OffsetBuilder}.
+     *
+     * @param oppositeBase The top edge length argument of this
+     *                     {@code OffsetBuilder}.
+     * @return {@code OffsetBuilder}, this
+     *         {@code OffsetBuilder}.
+     */
     public OffsetBuilder withOppositeBase(int oppositeBase) {
       this.withArg(OffsetBuilder.OPPOSITE_BASE, oppositeBase);
       return this;
     }
 
+    /**
+     * Gets the top edge length argument of this
+     * {@code OffsetBuilder}.
+     *
+     * @return int, the top edge length argument of this
+     *         {@code OffsetBuilder}.
+     */
     public int getOppositeBase() {
       return this.getArg(OffsetBuilder.OPPOSITE_BASE);
     }
   }
 
+  /**
+   * A builder class for a {@code Trapezoid} using an angle.
+   * Adds an argument for top edge length.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class AngleBuilder extends OrientedPolygon.AngleBuilder {
+    /** The {@code String} to represent the argument of top edge length. */
     private static final String OPPOSITE_BASE = "Top Edge";
+    /**
+     * The set of arguments this {@code AngleBuilder} requires
+     * in addition to inherited arguments.
+     */
     private static final LinkedHashSet<Arg> REQUIRED_ARGS =
       new LinkedHashSet<>(
         Arrays.asList(new Arg(AngleBuilder.OPPOSITE_BASE, 0))
       );
 
+    /**
+     * Creates a {@code Trapezoid} builder which uses the length
+     * of the base, height, bottom left (with rotation of 0)
+     * angle, and length of the top edge to construct a
+     * {@code Trapezoid}.
+     */
     public AngleBuilder() {
       super("Trapezoid", "Angle", AngleBuilder.REQUIRED_ARGS);
     }
@@ -199,11 +251,26 @@ public class Trapezoid extends OrientedPolygon {
       );
     }
 
+    /**
+     * Sets the top edge length argument of this
+     * {@code AngleBuilder}.
+     *
+     * @param oppositeBase The top edge length argument of this
+     *                     {@code AngleBuilder}.
+     * @return {@code AngleBuilder}, this {@code AngleBuilder}.
+     */
     public AngleBuilder withOppositeBase(int oppositeBase) {
       this.withArg(AngleBuilder.OPPOSITE_BASE, oppositeBase);
       return this;
     }
 
+    /**
+     * Gets the top edge length argument of this
+     * {@code AngleBuilder}.
+     *
+     * @return int, the top edge length argument of this
+     *         {@code AngleBuilder}.
+     */
     public int getOppositeBase() {
       return this.getArg(AngleBuilder.OPPOSITE_BASE);
     }

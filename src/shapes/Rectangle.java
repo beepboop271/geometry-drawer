@@ -80,7 +80,19 @@ public class Rectangle extends Parallelogram {
     return this.getBase();
   }
 
+  /**
+   * A builder class for a {@code Rectangle}. No arguments are
+   * added.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class Builder extends OrientedPolygon.HeightBuilder {
+    /**
+     * Creates a {@code Rectangle} builder which uses the length
+     * of the base and the height to construct a
+     * {@code Rectangle}.
+     */
     public Builder() {
       super("Rectangle", "Lengths", null);
     }

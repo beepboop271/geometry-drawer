@@ -69,7 +69,20 @@ public class Parallelogram extends Trapezoid {
     return this.getBase()*this.getHeight();
   }
 
+  /**
+   * A builder class for a {@code Parallelogram} using an
+   * offset. No arguments are added.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class OffsetBuilder extends OrientedPolygon.OffsetBuilder {
+    /**
+     * Creates a {@code Parallelogram} builder which uses the
+     * length of the base, height, and horizontal offset between
+     * top and bottom edges to construct a
+     * {@code Parallelogram}.
+     */
     public OffsetBuilder() {
       super("Parallelogram", "Offset", null);
     }
@@ -100,7 +113,20 @@ public class Parallelogram extends Trapezoid {
     }
   }
 
+  /**
+   * A builder class for a {@code Parallelogram} using an
+   * angle. No arguments are added.
+   *
+   * @author Kevin Qiao
+   * @version 1.0
+   */
   public static class AngleBuilder extends OrientedPolygon.AngleBuilder {
+    /**
+     * Creates a {@code Parallelogram} builder which uses the
+     * length of the base, height, and bottom left (with
+     * rotation of 0) angle to construct a
+     * {@code Parallelogram}.
+     */
     public AngleBuilder() {
       super("Parallelogram", "Angle", null);
     }
