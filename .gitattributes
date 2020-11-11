@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Ignore uml.class.violet.html as part of the language breakdown on GitHub
+uml.class.violet.html linguist-documentation
